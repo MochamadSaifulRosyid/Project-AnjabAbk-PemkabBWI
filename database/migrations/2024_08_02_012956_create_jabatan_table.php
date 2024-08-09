@@ -10,7 +10,7 @@ class CreateJabatanTable extends Migration
     {
         Schema::create('jabatan', function (Blueprint $table) {
             $table->id('id_jabatan');
-            $table->integer('kode_jabatan');
+            $table->string('kode_jabatan', 10)->unique(); // Ubah ke string dengan panjang yang sesuai
             $table->enum('jenis_jabatan', ['setruktural', 'fungsional', 'pelaksana']);
             $table->string('nama_jabatan', 100);
             $table->string('unit_kerja', 100);

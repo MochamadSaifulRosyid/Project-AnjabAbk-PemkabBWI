@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\SyaratJabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('beranda');
 });
+Route::resource('jabatan', JabatanController::class);
+
+Route::resource('syaratjabatan', SyaratJabatanController::class);
+Route::put('/syaratjabatan/{syaratjabatan}', [SyaratJabatanController::class, 'update'])->name('syaratjabatan.update');
