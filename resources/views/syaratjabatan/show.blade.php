@@ -1,22 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Syarat Jabatan</title>
+    <!-- Link to Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Link to custom CSS (optional) -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         .page-title {
-            color: #343a40; /* Dark color for title */
-            font-size: 2rem; /* Increase font size for the title */
-            margin-bottom: 1.5rem; /* Margin below title */
+            color: #343a40;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
         }
         .card-header {
-            background-color: #343a40; /* Dark background for card header */
-            color: #ffffff; /* White text color for header */
+            background-color: #343a40;
+            color: #ffffff;
         }
-        .btn {
-            margin-right: 0.5rem; /* Margin to the right of buttons */
+        .form-label {
+            font-weight: bold;
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .form-control-plaintext {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            width: 100%; /* Ensure it takes full width */
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+        }
+        .form-control-plaintext.textarea {
+            height: 150px; /* Adjust height as needed */
+            overflow: auto; /* Allow scrolling if the content exceeds the height */
+        }
+        .mb-3 {
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -29,43 +52,209 @@
                 Informasi Syarat Jabatan
             </div>
             <div class="card-body">
-                <h5 class="card-title">ID: {{ $syaratjabatan->id_syaratjabatan }}</h5>
+                <form>
+                    <!-- ID Syarat Jabatan -->
+                    <div class="row mb-3">
+                        <label for="idSyaratJabatan" class="col-sm-4 col-form-label form-label">ID Syarat Jabatan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="idSyaratJabatan" value="{{ $syaratjabatan->id_syaratjabatan }}" readonly>
+                        </div>
+                    </div>
 
-                <p class="card-text"><strong>Jabatan:</strong> {{ $syaratjabatan->jabatan->nama_jabatan }}</p>
-                <p class="card-text"><strong>Kode Jabatan:</strong> {{ $syaratjabatan->kode_jabatan }}</p>
-                <p class="card-text"><strong>Nama Jabatan:</strong> {{ $syaratjabatan->nama_jabatan }}</p>
-                <p class="card-text"><strong>Pengetahuan Kerja:</strong> {{ $syaratjabatan->pengetahuan_kerja }}</p>
-                <p class="card-text"><strong>Keterampilan Kerja:</strong> {{ $syaratjabatan->keterampilan_kerja }}</p>
-                <p class="card-text"><strong>Pengalaman Kerja:</strong> {{ $syaratjabatan->pengalaman_kerja }}</p>
-                <p class="card-text"><strong>Bakat Kerja:</strong> {{ $syaratjabatan->bakat_kerja }}</p>
-                <p class="card-text"><strong>Tempramen Kerja:</strong> {{ $syaratjabatan->tempramen_kerja }}</p>
-                <p class="card-text"><strong>Minat Kerja:</strong> {{ $syaratjabatan->minat_kerja }}</p>
-                <p class="card-text"><strong>Upaya Fisik:</strong> {{ $syaratjabatan->upaya_fisik }}</p>
-                <p class="card-text"><strong>Hubungan Jabatan dengan Data:</strong> {{ $syaratjabatan->hubunganjabatan_dengandata }}</p>
-                <p class="card-text"><strong>Hubungan Jabatan dengan Orang:</strong> {{ $syaratjabatan->hubunganjabatan_denganorang }}</p>
-                <p class="card-text"><strong>Hubungan Jabatan dengan Benda:</strong> {{ $syaratjabatan->hubunganjabatan_denganbenda }}</p>
-                <p class="card-text"><strong>Jenjang Minimal:</strong> {{ $syaratjabatan->jenjang_minimal }}</p>
-                <p class="card-text"><strong>Jurusan:</strong> {{ $syaratjabatan->jurusan }}</p>
-                <p class="card-text"><strong>Pelatihan Fungsional:</strong> {{ $syaratjabatan->pelatihan_fungsional }}</p>
-                <p class="card-text"><strong>Pelatihan Teknik:</strong> {{ $syaratjabatan->pelatihan_teknik }}</p>
-                <p class="card-text"><strong>Jenis Kelamin:</strong> {{ $syaratjabatan->jenis_kelamin }}</p>
-                <p class="card-text"><strong>Umur per Tahun:</strong> {{ $syaratjabatan->umur_pertahun }}</p>
-                <p class="card-text"><strong>Tinggi Badan (cm):</strong> {{ $syaratjabatan->tinggibadan_percm }}</p>
-                <p class="card-text"><strong>Berat Badan (kg):</strong> {{ $syaratjabatan->beratbadan_perkg }}</p>
-                <p class="card-text"><strong>Postur Badan:</strong> {{ $syaratjabatan->posturbadan }}</p>
-                <p class="card-text"><strong>Penampilan:</strong> {{ $syaratjabatan->penampilan }}</p>
-                
-                <a href="{{ route('syaratjabatan.index') }}" class="btn btn-primary">Kembali ke Daftar</a>
-                <a href="{{ route('syaratjabatan.edit', $syaratjabatan->id_syaratjabatan) }}" class="btn btn-warning">Edit</a>
-                <form action="{{ route('syaratjabatan.destroy', $syaratjabatan->id_syaratjabatan) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                    <!-- Jabatan -->
+                    <div class="row mb-3">
+                        <label for="jabatan" class="col-sm-4 col-form-label form-label">Jabatan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="jabatan" value="{{ $syaratjabatan->jabatan->nama_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Kode Jabatan -->
+                    <div class="row mb-3">
+                        <label for="kodeJabatan" class="col-sm-4 col-form-label form-label">Kode Jabatan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="kodeJabatan" value="{{ $syaratjabatan->kode_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Nama Jabatan -->
+                    <div class="row mb-3">
+                        <label for="namaJabatan" class="col-sm-4 col-form-label form-label">Nama Jabatan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="namaJabatan" value="{{ $syaratjabatan->nama_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Pengetahuan Kerja -->
+                    <div class="row mb-3">
+                        <label for="pengetahuanKerja" class="col-sm-4 col-form-label form-label">Pengetahuan Kerja</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="pengetahuanKerja" value="{{ $syaratjabatan->pengetahuan_kerja }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Keterampilan Kerja -->
+                    <div class="row mb-3">
+                        <label for="keterampilanKerja" class="col-sm-4 col-form-label form-label">Keterampilan Kerja</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="keterampilanKerja" value="{{ $syaratjabatan->keterampilan_kerja }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Pengalaman Kerja -->
+                    <div class="row mb-3">
+                        <label for="pengalamanKerja" class="col-sm-4 col-form-label form-label">Pengalaman Kerja</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="pengalamanKerja" value="{{ $syaratjabatan->pengalaman_kerja }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Bakat Kerja -->
+                    <div class="row mb-3">
+                        <label for="bakatKerja" class="col-sm-4 col-form-label form-label">Bakat Kerja</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="bakatKerja" readonly>{{ $syaratjabatan->bakat_kerja }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Tempramen Kerja -->
+                    <div class="row mb-3">
+                        <label for="tempramenKerja" class="col-sm-4 col-form-label form-label">Tempramen Kerja</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="tempramenKerja" readonly>{{ $syaratjabatan->tempramen_kerja }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Minat Kerja -->
+                    <div class="row mb-3">
+                        <label for="minatKerja" class="col-sm-4 col-form-label form-label">Minat Kerja</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="minatKerja" readonly>{{ $syaratjabatan->minat_kerja }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Upaya Fisik -->
+                    <div class="row mb-3">
+                        <label for="upayaFisik" class="col-sm-4 col-form-label form-label">Upaya Fisik</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="upayaFisik" readonly>{{ $syaratjabatan->upaya_fisik }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Hubungan Jabatan dengan Data -->
+                    <div class="row mb-3">
+                        <label for="hubunganJabatanData" class="col-sm-4 col-form-label form-label">Hubungan Jabatan dengan Data</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="hubunganJabatanData" readonly>{{ $syaratjabatan->hubunganjabatan_dengandata }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Hubungan Jabatan dengan Orang -->
+                    <div class="row mb-3">
+                        <label for="hubunganJabatanOrang" class="col-sm-4 col-form-label form-label">Hubungan Jabatan dengan Orang</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="hubunganJabatanOrang" readonly>{{ $syaratjabatan->hubunganjabatan_denganorang }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Hubungan Jabatan dengan Benda -->
+                    <div class="row mb-3">
+                        <label for="hubunganJabatanBenda" class="col-sm-4 col-form-label form-label">Hubungan Jabatan dengan Benda</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control-plaintext textarea" id="hubunganJabatanBenda" readonly>{{ $syaratjabatan->hubunganjabatan_denganbenda }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Jenjang Minimal -->
+                    <div class="row mb-3">
+                        <label for="jenjangMinimal" class="col-sm-4 col-form-label form-label">Jenjang Minimal</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="jenjangMinimal" value="{{ $syaratjabatan->jenjang_minimal }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Jurusan -->
+                    <div class="row mb-3">
+                        <label for="jurusan" class="col-sm-4 col-form-label form-label">Jurusan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="jurusan" value="{{ $syaratjabatan->jurusan }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Pelatihan Fungsional -->
+                    <div class="row mb-3">
+                        <label for="pelatihanFungsional" class="col-sm-4 col-form-label form-label">Pelatihan Fungsional</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="pelatihanFungsional" value="{{ $syaratjabatan->pelatihan_fungsional }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Pelatihan Teknik -->
+                    <div class="row mb-3">
+                        <label for="pelatihanTeknik" class="col-sm-4 col-form-label form-label">Pelatihan Teknik</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="pelatihanTeknik" value="{{ $syaratjabatan->pelatihan_teknik }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Jenis Kelamin -->
+                    <div class="row mb-3">
+                        <label for="jenisKelamin" class="col-sm-4 col-form-label form-label">Jenis Kelamin</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="jenisKelamin" value="{{ $syaratjabatan->jenis_kelamin }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Umur per Tahun -->
+                    <div class="row mb-3">
+                        <label for="umurPertahun" class="col-sm-4 col-form-label form-label">Umur per Tahun</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="umurPertahun" value="{{ $syaratjabatan->umur_pertahun }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Tinggi Badan -->
+                    <div class="row mb-3">
+                        <label for="tinggiBadan" class="col-sm-4 col-form-label form-label">Tinggi Badan (cm)</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="tinggiBadan" value="{{ $syaratjabatan->tinggibadan_percm }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Berat Badan -->
+                    <div class="row mb-3">
+                        <label for="beratBadan" class="col-sm-4 col-form-label form-label">Berat Badan (kg)</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="beratBadan" value="{{ $syaratjabatan->beratbadan_perkg }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Postur Badan -->
+                    <div class="row mb-3">
+                        <label for="posturBadan" class="col-sm-4 col-form-label form-label">Postur Badan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="posturBadan" value="{{ $syaratjabatan->posturbadan }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Penampilan -->
+                    <div class="row mb-3">
+                        <label for="penampilan" class="col-sm-4 col-form-label form-label">Penampilan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control-plaintext" id="penampilan" value="{{ $syaratjabatan->penampilan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-3">
+                        <a href="{{ route('syaratjabatan.index') }}" class="btn btn-primary">Kembali ke Daftar</a>
+                        <a href="{{ route('syaratjabatan.edit', $syaratjabatan->id_syaratjabatan) }}" class="btn btn-warning ms-2" style="margin-right: 8px;">Edit</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Link to Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76A3M4F5wGAK+3zC8gFJ3mdfPp5N2P7QKJh5N0yJc8U5F5EV9jlL4J+PjA1G2do" crossorigin="anonymous"></script>
 </body>
 </html>

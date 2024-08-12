@@ -3,22 +3,25 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\SyaratJabatanController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\AnalisisJabatanController;
 
 Route::get('/', function () {
-    return view('beranda');
+    return view('home');
 });
-Route::resource('jabatan', JabatanController::class);
 
+Route::get('/dashboard_v2', function () {
+    return view('dashboard_v2');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/layanan', function () {
+    return view('layanan');
+});
+
+//Form Crud 
+Route::resource('jabatan', JabatanController::class);
 Route::resource('syaratjabatan', SyaratJabatanController::class);
-Route::put('/syaratjabatan/{syaratjabatan}', [SyaratJabatanController::class, 'update'])->name('syaratjabatan.update');
+Route::resource('analisisjabatan', AnalisisJabatanController::class);

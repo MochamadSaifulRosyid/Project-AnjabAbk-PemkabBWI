@@ -21,6 +21,18 @@
         .btn {
             margin-right: 0.5rem; /* Margin to the right of buttons */
         }
+        .form-label {
+            font-weight: bold;
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .form-control-plaintext {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -32,20 +44,51 @@
                 Informasi Jabatan
             </div>
             <div class="card-body">
-                <h5 class="card-title">ID: {{ $jabatan->id_jabatan }}</h5>
+                <form>
+                    <div class="row mb-3">
+                        <label for="idJabatan" class="col-sm-3 col-form-label form-label">ID Jabatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="idJabatan" value="{{ $jabatan->id_jabatan }}" readonly>
+                        </div>
+                    </div>
 
-                <p class="card-text"><strong>Kode Jabatan:</strong> {{ $jabatan->kode_jabatan }}</p>
-                <p class="card-text"><strong>Jenis Jabatan:</strong> {{ $jabatan->jenis_jabatan }}</p>
-                <p class="card-text"><strong>Nama Jabatan:</strong> {{ $jabatan->nama_jabatan }}</p>
-                <p class="card-text"><strong>Unit Kerja:</strong> {{ $jabatan->unit_kerja }}</p>
-                <p class="card-text"><strong>Status Jabatan:</strong> {{ $jabatan->status_jabatan }}</p>
+                    <div class="row mb-3">
+                        <label for="kodeJabatan" class="col-sm-3 col-form-label form-label">Kode Jabatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="kodeJabatan" value="{{ $jabatan->kode_jabatan }}" readonly>
+                        </div>
+                    </div>
 
-                <a href="{{ route('jabatan.index') }}" class="btn btn-secondary">Kembali ke Daftar</a>
-                <a href="{{ route('jabatan.edit', $jabatan->id_jabatan) }}" class="btn btn-warning">Edit</a>
-                <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                    <div class="row mb-3">
+                        <label for="jenisJabatan" class="col-sm-3 col-form-label form-label">Jenis Jabatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="jenisJabatan" value="{{ $jabatan->jenis_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="namaJabatan" class="col-sm-3 col-form-label form-label">Nama Jabatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="namaJabatan" value="{{ $jabatan->nama_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="unitKerja" class="col-sm-3 col-form-label form-label">Unit Kerja</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="unitKerja" value="{{ $jabatan->unit_kerja }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="statusJabatan" class="col-sm-3 col-form-label form-label">Status Jabatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext" id="statusJabatan" value="{{ $jabatan->status_jabatan }}" readonly>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('jabatan.index') }}" class="btn btn-secondary">Kembali ke Daftar</a>
+                    <a href="{{ route('jabatan.edit', $jabatan->id_jabatan) }}" class="btn btn-warning">Edit</a>
                 </form>
             </div>
         </div>

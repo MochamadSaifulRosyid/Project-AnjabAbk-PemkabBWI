@@ -10,8 +10,9 @@ class SyaratJabatanController extends Controller
 {
     public function index()
     {
+        $jabatans = Jabatan::all();
         $syaratJabatan = SyaratJabatan::with('jabatan')->get();
-        return view('syaratjabatan.index', compact('syaratJabatan'));
+        return view('syaratjabatan.index', compact('jabatans', 'syaratJabatan'));
     }
 
     public function create()
@@ -88,7 +89,7 @@ class SyaratJabatanController extends Controller
             'penampilan' => $validated['penampilan'],
         ]);
 
-        return redirect()->route('syaratjabatan.index');
+        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan created successfully.');
     }
 
     public function show(SyaratJabatan $syaratjabatan)
@@ -174,13 +175,14 @@ class SyaratJabatanController extends Controller
         'penampilan' => $validated['penampilan'],
     ]);
 
-    return redirect()->route('syaratjabatan.index');
+    return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan updated successfully.');
 }
+
 
 
     public function destroy(SyaratJabatan $syaratjabatan)
     {
         $syaratjabatan->delete();
-        return redirect()->route('syaratjabatan.index');
+        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan deleted successfully.');
     }
 }
