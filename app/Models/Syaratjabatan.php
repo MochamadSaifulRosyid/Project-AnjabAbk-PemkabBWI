@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SyaratJabatan extends Model
+class Syaratjabatan extends Model
 {
     use HasFactory;
 
@@ -51,7 +51,13 @@ class SyaratJabatan extends Model
     protected $casts = [
         'jenjang_minimal' => 'string',
         'jenis_kelamin' => 'string',
-        'bakat_kerja' => 'array', // Menyimpan dan mengambil data sebagai array
+        'bakat_kerja' => 'array',
+        'tempramen_kerja' => 'array',
+        'minat_kerja' => 'array',
+        'upaya_fisik' => 'array',
+        'hubunganjabatan_dengandata' => 'array',
+        'hubunganjabatan_denganorang' => 'array',
+        'hubunganjabatan_denganbenda' => 'array'
     ];
 
     // Define relationships if needed

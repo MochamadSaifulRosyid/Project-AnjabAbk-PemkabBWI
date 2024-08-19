@@ -21,13 +21,13 @@ class CreateSyaratjabatanTable extends Migration
             $table->string('pengetahuan_kerja', 100);
             $table->string('keterampilan_kerja', 100);
             $table->string('pengalaman_kerja', 200);
-            $table->text('bakat_kerja'); // Changed to TEXT
-            $table->text('tempramen_kerja'); // Changed to TEXT
-            $table->text('minat_kerja'); // Changed to TEXT
-            $table->text('upaya_fisik'); // Changed to TEXT
-            $table->text('hubunganjabatan_dengandata'); // Changed to TEXT
-            $table->text('hubunganjabatan_denganorang'); // Changed to TEXT
-            $table->text('hubunganjabatan_denganbenda'); 
+            $table->json('bakat_kerja')->nullable();
+            $table->json('tempramen_kerja')->nullable(); // Changed to TEXT
+            $table->json('minat_kerja')->nullable(); // Changed to TEXT
+            $table->json('upaya_fisik')->nullable(); // Changed to TEXT
+            $table->json('hubunganjabatan_dengandata')->nullable(); // Changed to TEXT
+            $table->json('hubunganjabatan_denganorang')->nullable(); // Changed to TEXT
+            $table->json('hubunganjabatan_denganbenda')->nullable(); 
             $table->enum('jenjang_minimal', ['SMA', 'SMK', 'D3', 'D4', 'S1', 'S2', 'S3']);
             $table->string('jurusan', 200);
             $table->string('pelatihan_fungsional', 150)->nullable();

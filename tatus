@@ -1,0 +1,24 @@
+[33mcommit 63202065d4fd9e271c286dc17d072190a4fa8ae0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: c282c2f 70e197d
+Author: Mochamad Saiful Rosyid <saiful@example.com>
+Date:   Mon Aug 12 13:34:00 2024 +0700
+
+    crud
+
+[33mcommit c282c2f2fd26a4a570ed2d5102152a4d8ace25c9[m
+Author: Mochamad Saiful Rosyid <saiful@example.com>
+Date:   Fri Aug 9 08:33:38 2024 +0700
+
+    Save changes before pulling frontend updates
+
+[33mcommit 70e197d5e166302916a5ddf37d4c9816e11e1772[m
+Author: Fauziah13 <fauziah.realmec2@gmail.com>
+Date:   Fri Aug 9 08:24:54 2024 +0700
+
+    part 2
+
+[33mcommit 2f882ac8c10e62449fa1fbfbef924c80f15a2135[m
+Author: Mochamad Saiful Rosyid <saiful@example.com>
+Date:   Mon Aug 5 07:56:18 2024 +0700
+
+    upload pertama project

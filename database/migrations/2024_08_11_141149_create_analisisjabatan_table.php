@@ -19,8 +19,8 @@ class CreateAnalisisJabatanTable extends Migration
             $table->string('langkah_kerja');
             $table->string('hasil_kerja');
             $table->string('satuan');
-            $table->integer('waktu_permenit'); // Changed to integer
-            $table->integer('jumlah'); // Changed to integer
+            $table->string('waktu_permenit'); // Changed to integer
+            $table->string('jumlah'); // Changed to integer
             $table->string('tanggung_jawab');
             $table->string('wewenang');
             $table->string('perangkat_kerja');
