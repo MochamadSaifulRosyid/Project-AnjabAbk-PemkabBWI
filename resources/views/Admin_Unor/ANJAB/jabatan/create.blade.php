@@ -38,27 +38,32 @@
         .text-danger {
             font-size: 0.875em;
         }
-        .alert {
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card-header">
                 <h4 class="mb-0">Tambah Jabatan</h4>
             </div>
             <div class="card-body">
                 <form id="jabatanForm" action="{{ route('jabatan.store') }}" method="POST">
                     @csrf
-                    <div class="alert alert-danger" id="errorAlert">Semua kolom harus diisi.</div>
 
                     <div class="mb-3">
                         <label for="jenis_jabatan" class="form-label">Jenis Jabatan</label>
                         <select name="jenis_jabatan" id="jenis_jabatan" class="form-select" required>
                             <option value="" disabled selected>Pilih Jenis Jabatan</option>
-                            <option value="setruktural" {{ old('jenis_jabatan') == 'setruktural' ? 'selected' : '' }}>Struktural</option>
+                            <option value="struktural" {{ old('jenis_jabatan') == 'struktural' ? 'selected' : '' }}>Struktural</option>
                             <option value="fungsional" {{ old('jenis_jabatan') == 'fungsional' ? 'selected' : '' }}>Fungsional</option>
                             <option value="pelaksana" {{ old('jenis_jabatan') == 'pelaksana' ? 'selected' : '' }}>Pelaksana</option>
                         </select>
@@ -88,19 +93,19 @@
                         <label for="eselon" class="form-label">Eselon</label>
                         <select name="eselon" id="eselon" class="form-select" required>
                             <option value="">Pilih Eselon</option>
-                            <option value="Eselon 1A / Jabatan Pimpinan Tinggi Utama">Eselon 1A / Jabatan Pimpinan Tinggi Utama</option>
-                            <option value="Eselon 1B / Jabatan Pimpinan Tinggi Madya">Eselon 1B / Jabatan Pimpinan Tinggi Madya</option>
-                            <option value="Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya">Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya</option>
-                            <option value="Eselon 2A / Jabatan Pimpinan Tinggi Pratama">Eselon 2A / Jabatan Pimpinan Tinggi Pratama</option>
-                            <option value="Eselon 2B / Jabatan Pimpinan Tinggi Pratama">Eselon 2B / Jabatan Pimpinan Tinggi Pratama</option>
-                            <option value="Eselon 3A / Jabatan Administrator">Eselon 3A / Jabatan Administrator</option>
-                            <option value="Eselon 3B / Jabatan Administrator">Eselon 3B / Jabatan Administrator</option>
-                            <option value="Eselon 4A / Jabatan Pengawas">Eselon 4A / Jabatan Pengawas</option>
-                            <option value="Eselon 4B / Jabatan Pengawas">Eselon 4B / Jabatan Pengawas</option>
-                            <option value="Jabatan Pelaksana">Jabatan Pelaksana</option>
-                            <option value="Eselon 4A / Jabatan Pengawas (F)">Eselon 4A / Jabatan Pengawas (F)</option>
-                            <option value="Kelompok">Kelompok</option>
-                            <option value="Sub Kelompok">Sub Kelompok</option>
+                            <option value="Eselon 1A / Jabatan Pimpinan Tinggi Utama" {{ old('eselon') == 'Eselon 1A / Jabatan Pimpinan Tinggi Utama' ? 'selected' : '' }}>Eselon 1A / Jabatan Pimpinan Tinggi Utama</option>
+                            <option value="Eselon 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon') == 'Eselon 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1B / Jabatan Pimpinan Tinggi Madya</option>
+                            <option value="Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon') == 'Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya</option>
+                            <option value="Eselon 2A / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon') == 'Eselon 2A / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2A / Jabatan Pimpinan Tinggi Pratama</option>
+                            <option value="Eselon 2B / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon') == 'Eselon 2B / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2B / Jabatan Pimpinan Tinggi Pratama</option>
+                            <option value="Eselon 3A / Jabatan Administrator" {{ old('eselon') == 'Eselon 3A / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3A / Jabatan Administrator</option>
+                            <option value="Eselon 3B / Jabatan Administrator" {{ old('eselon') == 'Eselon 3B / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3B / Jabatan Administrator</option>
+                            <option value="Eselon 4A / Jabatan Pengawas" {{ old('eselon') == 'Eselon 4A / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas</option>
+                            <option value="Eselon 4B / Jabatan Pengawas" {{ old('eselon') == 'Eselon 4B / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4B / Jabatan Pengawas</option>
+                            <option value="Jabatan Pelaksana" {{ old('eselon') == 'Jabatan Pelaksana' ? 'selected' : '' }}>Jabatan Pelaksana</option>
+                            <option value="Eselon 4A / Jabatan Pengawas (F)" {{ old('eselon') == 'Eselon 4A / Jabatan Pengawas (F)' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas (F)</option>
+                            <option value="Kelompok" {{ old('eselon') == 'Kelompok' ? 'selected' : '' }}>Kelompok</option>
+                            <option value="Sub Kelompok" {{ old('eselon') == 'Sub Kelompok' ? 'selected' : '' }}>Sub Kelompok</option>
                         </select>
                         @error('eselon')
                             <div class="text-danger">{{ $message }}</div>
@@ -127,22 +132,5 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        document.getElementById('jabatanForm').addEventListener('submit', function(event) {
-            let isValid = true;
-            const requiredFields = ['jenis_jabatan', 'nama_jabatan', 'unit_kerja', 'eselon', 'status_jabatan'];
-            requiredFields.forEach(function(fieldId) {
-                const field = document.getElementById(fieldId);
-                if (!field.value) {
-                    isValid = false;
-                }
-            });
-
-            if (!isValid) {
-                event.preventDefault();
-                document.getElementById('errorAlert').style.display = 'block';
-            }
-        });
-    </script>
 </body>
 </html>

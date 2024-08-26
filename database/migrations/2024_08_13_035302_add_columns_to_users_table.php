@@ -10,7 +10,7 @@ public function up()
 {
 Schema::table('users', function (Blueprint $table) {
 $table->string('username')->unique()->after('email');
-$table->enum('unit_organisasi', [
+$table->enum('unit_kerja', [
 'Sekretariat Daerah',
 'Bagian Pemerintahan',
 'Bagian Pemerintahaan Desa',

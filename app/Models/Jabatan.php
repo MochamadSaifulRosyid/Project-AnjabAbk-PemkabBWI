@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -8,22 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Jabatan extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'id_jabatan'; 
     protected $table = 'jabatan';
-    protected $primaryKey = 'id_jabatan';
-    public $incrementing = true;
-    protected $keyType = 'int';
+
     protected $fillable = [
-        'kode_jabatan',
         'jenis_jabatan',
         'nama_jabatan',
         'unit_kerja',
-        'status_jabatan',
         'eselon',
+        'status_jabatan',
+        'kode_jabatan',
+        'user_id', // Tambahkan user_id
     ];
 
-    // Jika kamu ingin menetapkan default value atau casting data
-    protected $casts = [
-        'eselon' => 'string', // Untuk memastikan eselon diperlakukan sebagai string
-    ];
+    // Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -40,8 +40,19 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
+          <i class="far fa-user"></i>
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> {{ auth()->user()->username }}
+          </a>
+          <div class="dropdown-divider"></div>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+  <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -60,10 +71,9 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="" class="brand-link">
       <img class="animation__shake" src="{{ asset('Travisa/img/banyuwangi.png') }}" alt="anjab-logo" height="50px" width="auto">
       <span>Anjab Abk</span>
-      <!-- <span class="brand-text font-weight-light">AdminLTE 3</span> -->
     </a>
 
     <!-- Sidebar -->
@@ -74,7 +84,7 @@
           <i class="fa-solid fa-user-tie" style="color: #c2c2c2; margin-top: 8px; margin-left: 10px"></i>
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          <a href="#" class="d-block">{{ auth()->user()->username }}</a>
         </div>
       </div>
 
@@ -93,97 +103,113 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-                <a href="/user" class="nav-link">
-                  <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 10px"></i>
-                  <p>
-                    Sub User
-                  </p>
-                </a>
-              </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Analisis Jabatan
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/jabatan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Jabatan</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/syaratjabatan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Syarat Jabatan</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/analisisjabatan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Analisis Jabatan</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 4px; margin-right: 10px"></i>
-              <p>
-                Analisis Beban Kerja
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/dataabk" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Analisis Beban Kerja</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/datapegawai" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Pegawai</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 4px; margin-right: 10px"></i>
-              <p>
-                Laporan
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/petajabatan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Peta Jabatan</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/hasilanjab" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hasil Anjab</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/hasilabk" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hasil Abk</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+            @if(Auth::check())
+                @if(Auth::user()->role === 'Super Admin')
+                    <!-- Menu untuk Super Admin -->
+                    <li class="nav-item">
+                        <a href="/konten" class="nav-link">
+                            <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                            <p>Konten</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user" class="nav-link">
+                            <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
+                            <p>Sub User</p>
+                        </a>
+                    </li>
+                @elseif(Auth::user()->role === 'Admin Skpd')
+                    <!-- Menu untuk Admin Skpd -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                            <p>
+                                Analisis Jabatan
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/jabatan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Data Jabatan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/syaratjabatan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Syarat Jabatan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/analisisjabatan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Analisis Jabatan</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                            <p>
+                                Analisis Beban Kerja
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/datapegawai" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Data Pegawai</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/dataabk" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Analisis Beban Kerja</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
+                            <p>
+                                Laporan
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/petajabatan" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Peta Jabatan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/hasilanjab" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Hasil Anjab</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/hasilabk" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Hasil Abk</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+            @endif
         </ul>
-      </nav>
+    </nav>
+    
+    
+    
+    
+    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -208,127 +234,123 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
-    <!-- Main content -->
-    <!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-      <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>{{ $jumlahJabatanSetruktural }}</h3>
-              <p>Jabatan Struktural</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-            <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-            <a href="#" class="small-box-footer">Jabatan Struktural</a>
+    <section class="content">
+      <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+              <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="small-box bg-info">
+                      <div class="inner">
+                          <h3>{{ $jumlahJabatanStruktural }}</h3>
+                          <p>Jabatan Struktural</p>
+                      </div>
+                      <div class="icon">
+                          <i class="ion ion-stats-bars"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                      <a href="#" class="small-box-footer">Jabatan Struktural</a>
+                  </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="small-box bg-success">
+                      <div class="inner">
+                          <h3>{{ $jumlahJabatanFungsional }}</h3>
+                          <p>Jabatan Fungsional</p>
+                      </div>
+                      <div class="icon">
+                          <i class="ion ion-stats-bars"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">Jabatan Fungsional</a>
+                  </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="small-box bg-warning">
+                      <div class="inner">
+                          <h3>{{ $jumlahJabatanPelaksana }}</h3>
+                          <p>Jabatan Pelaksana</p>
+                      </div>
+                      <div class="icon">
+                          <i class="ion ion-stats-bars"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">Jabatan Pelaksana</a>
+                  </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="small-box bg-danger">
+                      <div class="inner">
+                          <h3>{{ $totalPegawai }}</h3>
+                          <p>Total Pegawai</p>
+                      </div>
+                      <div class="icon">
+                          <i class="ion ion-pie-graph"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">Total Pegawai</a>
+                  </div>
+              </div>
+              <!-- ./col -->
           </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>{{ $jumlahJabatanFungsional }}</h3>
-              <p>Jabatan Fungsional</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="#" class="small-box-footer">Jabatan Fungsional</a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>{{ $jumlahJabatanPelaksana }}</h3>
-              <p>Jabatan Pelaksana</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="#" class="small-box-footer">Jabatan Pelaksana</a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-danger">
-            <div class="inner">
-              <h3>{{ $totalPegawai }}</h3>
-              <p>Total Pegawai</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">Total Pegawai</a>
-          </div>
-        </div>
-        <!-- ./col -->
-      </div>
-      <!-- /.row -->
-  
-    </div><!-- /.container-fluid -->
+          <!-- /.row -->
+      </div><!-- /.container-fluid -->
   </section>
   
+    
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>Created By Pemkab Bwi <a href="https://adminlte.io">AnjabAbk.id</a></strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>2024</b>
-    </div>
-  </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Created By Pemkab Bwi <a href="https://adminlte.io">AnjabAbk.id</a></strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>2024</b>
+    </div>
+  </footer>
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
+<!-- REQUIRED SCRIPTS -->
 <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('AdminLTE/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
 <script src="{{ asset('AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('AdminLTE/plugins/chart.js/Chart.min.js') }}"></script>
-<!-- Sparkline -->
-<script src="{{ asset('AdminLTE/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
-<script src="{{ asset('AdminLTE/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{ asset('AdminLTE/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
 <script src="{{ asset('AdminLTE/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('AdminLTE/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
 <script src="{{ asset('AdminLTE/plugins/summernote/summernote-bs4.min.js') }}"></script>
-<!-- overlayScrollbars -->
 <script src="{{ asset('AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<!-- AdminLTE App -->
 <script src="{{ asset('AdminLTE/dist/js/adminlte.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
 <script src="{{ asset('AdminLTE/dist/js/demo.js') }}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('AdminLTE/dist/js/pages/dashboard.js') }}"></script>
+<script>
+    document.querySelector('#logout-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    fetch('{{ route('logout') }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = '/'; 
+        }
+    });
+});
+
+</script>
+
+
 </body>
 </html>

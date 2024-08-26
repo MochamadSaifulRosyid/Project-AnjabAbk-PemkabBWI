@@ -5,20 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\SyaratJabatan;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SyaratJabatanController extends Controller
 {
     public function index()
     {
-        $jabatans = Jabatan::all();
-        $syaratJabatan = SyaratJabatan::with('jabatan')->get();
+        // Tampilkan syarat jabatan yang terkait dengan jabatan milik user yang sedang login
+        $userId = Auth::id();
+        $jabatans = Jabatan::where('user_id', $userId)->get();
+        $syaratJabatan = SyaratJabatan::whereIn('id_jabatan', $jabatans->pluck('id_jabatan'))->with('jabatan')->get();
+        
         return view('Admin_Unor.ANJAB.syaratjabatan.index', compact('jabatans', 'syaratJabatan'));
     }
 
     public function create()
     {
-        // Mendapatkan semua jabatan yang belum digunakan
-        $jabatans = Jabatan::whereNotIn('id_jabatan', SyaratJabatan::pluck('id_jabatan'))->get();
+        // Mendapatkan semua jabatan yang belum digunakan oleh syarat jabatan milik user yang sedang login
+        $userId = Auth::id();
+        $jabatans = Jabatan::where('user_id', $userId)
+                           ->whereNotIn('id_jabatan', SyaratJabatan::pluck('id_jabatan'))
+                           ->get();
+
         return view('Admin_Unor.ANJAB.syaratjabatan.create', compact('jabatans'));
     }
 
