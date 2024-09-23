@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function store(Request $request)
 {
-    // Validasi input, tanpa 'user_id'
+    // Validasi input
     $request->validate([
         'email' => [
             'required',
@@ -42,6 +42,11 @@ class UserController extends Controller
         'NM_UNOR' => 'required|string|max:255',
     ]);
 
+    // Cek apakah KD_UNOR sudah digunakan
+    if (User::where('KD_UNOR', $request->KD_UNOR)->exists()) {
+        return back()->withErrors(['KD_UNOR' => 'Unit Organisasi ini sudah digunakan.'])->withInput();
+    }
+
     // Mendapatkan user_id berikutnya
     $user_id = User::getNextUserId();
 
@@ -57,6 +62,7 @@ class UserController extends Controller
 
     return redirect()->route('user.index')->with('success', 'User created successfully.');
 }
+
 
 
     public function show(User $user)
