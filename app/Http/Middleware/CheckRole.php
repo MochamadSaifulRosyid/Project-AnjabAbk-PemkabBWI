@@ -10,9 +10,12 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        // Mengubah pengecekan role menjadi case-insensitive
-        if (!Auth::check() || strtolower(Auth::user()->role) !== strtolower($role)) {
-            return redirect()->route('dashboard');
+        $user = Auth::user();
+
+        // Cek jika pengguna belum login atau peran tidak sesuai atau akses tidak aktif
+        if (!Auth::check() || strtolower($user->role) !== strtolower($role) || !$user->access_status) {
+            // Redirect ke halaman dashboard jika akses tidak diizinkan
+            return redirect()->route('dashboard')->withErrors('Akses ditutup.');
         }
 
         return $next($request);

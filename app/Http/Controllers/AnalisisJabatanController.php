@@ -11,18 +11,19 @@ class AnalisisJabatanController extends Controller
 {
     public function index()
     {
-        // Filter AnalisisJabatan based on the logged-in user
-        $jabatans = Jabatan::where('user_id', Auth::id())->get();
-        $analisisJabatan = AnalisisJabatan::with('jabatan')->whereHas('jabatan', function($query) {
-            $query->where('user_id', Auth::id());
-        })->get();
+        $userId = Auth::id();
+        $jabatans = Jabatan::where('user_id', $userId)->get();
+        $analisisJabatan = AnalisisJabatan::with('jabatan')
+            ->whereHas('jabatan', function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
         
         return view('Admin_Unor.ANJAB.analisisjabatan.index', compact('jabatans', 'analisisJabatan'));
     }
 
     public function create()
     {
-        // Exclude AnalisisJabatan related jabatan and filter based on user_id
         $jabatans = Jabatan::where('user_id', Auth::id())
             ->whereNotIn('id_jabatan', AnalisisJabatan::pluck('id_jabatan'))
             ->get();
@@ -32,7 +33,6 @@ class AnalisisJabatanController extends Controller
 
     public function store(Request $request)
     {
-        // Validate data
         $validatedData = $request->validate([
             'id_jabatan' => 'required|exists:jabatan,id_jabatan',
             'kode_jabatan' => 'required|string',
@@ -80,10 +80,20 @@ class AnalisisJabatanController extends Controller
             'kelas_jabatan' => 'required|integer|between:1,17'
         ]);
 
-        // Save data with user_id
-        $analisis = new AnalisisJabatan();
-        $analisis->fill($validatedData);
-        $analisis->save();
+        // Convert arrays to JSON before saving
+        $validatedData['uraian_tugas'] = json_encode($validatedData['uraian_tugas']);
+        $validatedData['langkah_kerja'] = json_encode($validatedData['langkah_kerja']);
+        $validatedData['hasil_kerja'] = json_encode($validatedData['hasil_kerja']);
+        $validatedData['satuan'] = json_encode($validatedData['satuan']);
+        $validatedData['waktu_permenit'] = json_encode($validatedData['waktu_permenit']);
+        $validatedData['jumlah'] = json_encode($validatedData['jumlah']);
+        $validatedData['hubungandenganjabatan'] = json_encode($validatedData['hubungandenganjabatan']);
+        $validatedData['perihal'] = json_encode($validatedData['perihal']);
+        $validatedData['unit_kerja'] = json_encode($validatedData['unit_kerja']);
+        $validatedData['bahaya_fisikataumental'] = json_encode($validatedData['bahaya_fisikataumental']);
+        $validatedData['penyebab'] = json_encode($validatedData['penyebab']);
+
+        AnalisisJabatan::create($validatedData);
 
         return redirect()->route('analisisjabatan.index')->with('success', 'Data berhasil disimpan.');
     }
@@ -95,7 +105,6 @@ class AnalisisJabatanController extends Controller
 
     public function edit(AnalisisJabatan $analisisjabatan)
     {
-        // Ensure that the jabatan list is filtered by the logged-in user
         $jabatans = Jabatan::where('user_id', Auth::id())
             ->whereNotIn('id_jabatan', AnalisisJabatan::where('id_anjab', '<>', $analisisjabatan->id_anjab)->pluck('id_jabatan'))
             ->get();
@@ -106,7 +115,6 @@ class AnalisisJabatanController extends Controller
     public function update(Request $request, AnalisisJabatan $analisisjabatan)
     {
         $validated = $request->validate([
-            'ikhtisar_jabatan' => 'required|string|max:255',
             'objek_kerja' => 'required|string|max:255',
             'uraian_tugas' => 'required|string|max:255',
             'langkah_kerja' => 'required|string|max:255',
@@ -146,7 +154,6 @@ class AnalisisJabatanController extends Controller
 
     public function destroy(AnalisisJabatan $analisisjabatan)
     {
-        // Ensure that only the owner's data is deleted
         if ($analisisjabatan->jabatan->user_id == Auth::id()) {
             $analisisjabatan->delete();
             return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan deleted successfully.');

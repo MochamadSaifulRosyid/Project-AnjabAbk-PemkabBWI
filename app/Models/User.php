@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -9,36 +9,36 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
+        'KD_UNOR',
         'email',
         'password',
         'username', 
-        'unit_kerja', 
-        'role'
+        'NM_UNOR', 
+        'role',
+        'access_status', // Menambahkan access_status
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
+        'access_status' => 'boolean', // Mengatur akses_status sebagai boolean
         'email_verified_at' => 'datetime',
     ];
+    
+
+    public function unor()
+    {
+        return $this->belongsTo(Unor::class, 'KD_UNOR', 'KD_UNOR');
+    }
+
+    public static function getNextUserId()
+    {
+        $latestUser = self::orderBy('user_id', 'desc')->first();
+        return $latestUser ? $latestUser->user_id + 1 : 1;
+    }
 }

@@ -66,7 +66,7 @@
                 <div class="mb-3">
                     <label for="jenis_jabatan" class="form-label">Jenis Jabatan</label>
                     <select name="jenis_jabatan" id="jenis_jabatan" class="form-select" required>
-                        <option value="setruktural" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'setruktural' ? 'selected' : '' }}>Struktural</option>
+                        <option value="struktural" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'struktural' ? 'selected' : '' }}>Struktural</option>
                         <option value="fungsional" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'fungsional' ? 'selected' : '' }}>Fungsional</option>
                         <option value="pelaksana" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'pelaksana' ? 'selected' : '' }}>Pelaksana</option>
                     </select>

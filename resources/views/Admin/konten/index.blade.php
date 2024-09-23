@@ -126,6 +126,23 @@
                                   <p>Sub User</p>
                               </a>
                           </li>
+                          <li class="nav-item">
+                            <a href="#" class="nav-link">
+                              <i class="fa-solid fa-bars-progress" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i> 
+                                <p>
+                                    Manajemen Data
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/manajemenuser" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Manajemen User</p>
+                                    </a>
+                                </li>
+                            </ul>
+                          </li>
                       @elseif(Auth::user()->role === 'Admin Skpd')
                           <!-- Menu untuk Admin Skpd -->
                           <li class="nav-item">

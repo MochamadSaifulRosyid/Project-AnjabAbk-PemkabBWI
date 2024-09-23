@@ -17,20 +17,24 @@ class UsersTableSeeder extends Seeder
     {
         // Create admin user
         User::create([
-            'user_id' => '111',
+            'user_id' => '1',
+            'KD_UNOR' => '8800000000',
+            'username' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('admin123'),
             'role' => 'Super Admin',
-            'username' => 'Super Admin'
+            'NM_UNOR' => 'Pemerintah Kabupaten Banyuwangi'
         ]);
 
         // Create admin SKPD user
         User::create([
-            'user_id' => '222',
+            'user_id' => '2',
+            'KD_UNOR' => '8801000000',
+            'username' => 'Admin SKPD',
             'email' => 'adminskpd@gmail.com',
             'password' => Hash::make('admin123'),
             'role' => 'Admin Skpd',
-            'username' => 'Admin SKPD'
+            'NM_UNOR' => 'Sekretariat Daerah'
         ]);
     }
 }

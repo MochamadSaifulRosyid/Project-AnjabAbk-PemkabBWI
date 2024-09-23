@@ -1,100 +1,124 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Jabatan;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Unor;
 
 class UserController extends Controller
 {
-    // Menampilkan halaman form untuk membuat user baru
-    public function index() {
+    public function index()
+    {
         $users = User::all();
         return view('Admin.SUBUSER.index', compact('users'));
     }
 
-    // Menampilkan form untuk membuat user baru
     public function create()
     {
-        return view('Admin.SUBUSER.create');
+        $unors = Unor::all();
+        return view('Admin.SUBUSER.create', compact('unors'));
     }
 
-    // Menyimpan user baru
     public function store(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'user_id' => 'required|integer|unique:users|max:20',
-            'email' => [
-                'required',
-                'email',
-                'unique:users',
-                function ($attribute, $value, $fail) {
-                    if (!str_ends_with($value, '@gmail.com')) {
-                        $fail('Email harus diakhiri dengan @gmail.com.');
-                    }
-                },
-            ],
-            'username' => 'required|string|unique:users|max:255',
-            'password' => 'required|string|min:8|confirmed',
-            'unit_organisasi' => [
-                'nullable',
-                'string',
-                function ($attribute, $value, $fail) {
-                    if (User::where('unit_organisasi', $value)->exists()) {
-                        $fail('Unit Organisasi sudah ada.');
-                    }
-                },
-            ],
-        ]);
-        User::create([
-            'user_id' => $request->user_id,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'unit_organisasi' => $request->unit_organisasi,
-            'role' => 'Admin Skpd', // Set role ke Admin Skpd
-        ]);
+{
+    // Validasi input, tanpa 'user_id'
+    $request->validate([
+        'email' => [
+            'required',
+            'email',
+            'unique:users',
+            function ($attribute, $value, $fail) {
+                if (!str_ends_with($value, '@gmail.com')) {
+                    $fail('Email harus diakhiri dengan @gmail.com.');
+                }
+            },
+        ],
+        'username' => 'required|string|unique:users|max:255',
+        'password' => 'required|string|min:8|confirmed',
+        'role' => 'required|string|in:Super Admin,Admin Skpd,Admin Unor',
+        'KD_UNOR' => 'required|string|exists:unor,KD_UNOR',
+        'NM_UNOR' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('user.index')->with('success', 'User created successfully.');
-    }
+    // Mendapatkan user_id berikutnya
+    $user_id = User::getNextUserId();
 
-    // Menampilkan detail user
+    User::create([
+        'user_id' => $user_id,
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'KD_UNOR' => $request->KD_UNOR,
+        'NM_UNOR' => $request->NM_UNOR,
+        'role' => $request->role,
+    ]);
+
+    return redirect()->route('user.index')->with('success', 'User created successfully.');
+}
+
+
     public function show(User $user)
     {
         return view('Admin.SUBUSER.show', compact('user'));
     }
 
-    // Menampilkan form untuk mengedit user
     public function edit(User $user)
     {
         return view('Admin.SUBUSER.edit', compact('user'));
     }
 
-    // Memperbarui user
     public function update(Request $request, User $user)
 {
-    $validated = $request->validate([
-        'username' => 'required|string|max:255',
-        'password' => 'nullable|string|min:8|confirmed',
-    ]);
-
-    $user->username = $request->input('username');
-
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->input('password'));
-    }
-
+    $user->access_status = !$user->access_status; // Toggle status
     $user->save();
 
-    return redirect()->route('user.index')->with('success', 'User updated successfully');
+    return redirect()->route('user.index')->with('success', $user->access_status ? 'User access successfully activated.' : 'User access successfully deactivated.');
 }
 
 
-    // Menghapus user
+
+    // Fungsi untuk mengaktifkan kembali akses
+    public function activate(Request $request, User $user)
+    {
+        $user->access_status = true;
+        $user->save();
+
+        return redirect()->route('user.index')->with('success', 'User access successfully activated.');
+    }
     public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
+
+    public function getUserById($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
+
+    public function getUnitsByRole(Request $request)
+    {
+        $role = $request->input('role');
+        
+        // Fetch units based on the role
+        $unors = Unor::all();
+
+        return response()->json($unors);
+    }
+    public function dashboard()
+    {
+        $user = Auth::user();
+        
+        // Periksa apakah akses dinonaktifkan
+        if (!$user->access_status) {
+            return redirect()->route('access.denied');
+        }
+
+        // Jika akses aktif, lanjutkan ke halaman dashboard
+        return view('dashboard');
+    }
+
 }

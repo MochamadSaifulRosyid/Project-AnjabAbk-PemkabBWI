@@ -19,30 +19,72 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <style>
-    /* Custom styling */
-    .page-title {
-        color: #343a40; /* Dark color for title */
-    }
-    .table thead {
-        background-color: #343a40; /* Dark background for table header */
-        color: #ffffff; /* White text color for header */
-    }
-    .table th, .table td {
-        vertical-align: middle; /* Align text vertically in table cells */
-    }
-    .status-aktif {
-        background-color: #d4edda; /* Light green background */
-        color: #155724; /* Dark green text */
-        padding: 5px;
-        border-radius: 3px;
-    }
-    .status-nonaktif {
+    .role-super-admin {
         background-color: #f8d7da; /* Light red background */
         color: #721c24; /* Dark red text */
-        padding: 5px;
+        padding: 3px 6px;
         border-radius: 3px;
+        font-size: 0.9em; /* Optional: adjust font size */
     }
-  </style>
+    .role-admin-skpd {
+        background-color: #fff3cd; /* Light yellow background */
+        color: #856404; /* Dark yellow text */
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-size: 0.9em; /* Optional: adjust font size */
+    }
+    .role-admin-unor {
+        background-color: #d1ecf1; /* Light blue background */
+        color: #0c5460; /* Dark blue text */
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-size: 0.9em; /* Optional: adjust font size */
+    }
+    .btn-danger  {
+      width: 100%;
+      background-color: white;
+      border: none;
+      color: black;
+    }
+    /* For Chrome, Safari, and Edge */
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: 1px solid #ccc; /* Adjust the border color if needed */
+    padding: 5px 10px; /* Adjust padding to fit your design */
+}
+
+/* For Firefox */
+select {
+    -moz-appearance: none;
+    background: transparent;
+    border: 1px solid #ccc; /* Adjust the border color if needed */
+    padding: 5px 10px; /* Adjust padding to fit your design */
+}
+
+/* Additional styling to remove the default arrow in other browsers */
+select::-ms-expand {
+    display: none;
+}
+    .status-active {
+        background-color: green;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    .status-inactive {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    .disabled {
+    pointer-events: none;
+    color: #6c757d; /* Warna abu-abu atau sesuai tema */
+    cursor: not-allowed;
+}
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -125,115 +167,135 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @if(Auth::check())
-                @if(Auth::user()->role === 'Super Admin')
-                    <!-- Menu untuk Super Admin -->
+                @php
+                    $isAccessClosed = !Auth::user()->access_status;
+                @endphp
+                @if(!$isAccessClosed)
+                    @if(Auth::user()->role === 'Super Admin')
+                        <!-- Menu untuk Super Admin -->
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/konten" class="nav-link">
+                                <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                <p>Konten</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/user" class="nav-link">
+                                <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
+                                <p>Sub User</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-bars-progress" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                <p>Manajemen Data<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/manajemenuser" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Manajemen User</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @elseif(Auth::user()->role === 'Admin Skpd')
+                        <!-- Menu untuk Admin Skpd -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/jabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Data Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/syaratjabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Syarat Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/analisisjabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Analisis Jabatan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/datapegawai" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Data Pegawai</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/dataabk" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Analisis Beban Kerja</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
+                                <p>Laporan<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/petajabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Peta Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/hasilanjab" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hasil Anjab</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/hasilabk" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hasil Abk</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+                @else
+                    <!-- Jika akses ditutup -->
                     <li class="nav-item">
-                      <a href="/dashboard" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                          Dashboard
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/konten" class="nav-link">
-                            <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                            <p>Konten</p>
+                        <a href="#" class="nav-link disabled" title="Akses ditutup, silahkan hubungi admin">
+                            <i class="nav-icon fas fa-ban" style="color: #dc3545;"></i>
+                            <p>Dashboard (Akses Ditutup)</p>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/user" class="nav-link">
-                            <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
-                            <p>Sub User</p>
-                        </a>
-                    </li>
-                @elseif(Auth::user()->role === 'Admin Skpd')
-                    <!-- Menu untuk Admin Skpd -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
-                            <p>
-                                Analisis Jabatan
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/jabatan" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Data Jabatan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/syaratjabatan" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Syarat Jabatan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/analisisjabatan" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Analisis Jabatan</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                            <p>
-                                Analisis Beban Kerja
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/datapegawai" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Data Pegawai</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/dataabk" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Analisis Beban Kerja</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
-                            <p>
-                                Laporan
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/petajabatan" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Peta Jabatan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/hasilanjab" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Hasil Anjab</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/hasilabk" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Hasil Abk</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 @endif
             @endif
         </ul>
     </nav>
+    
+    
+    
+    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -271,37 +333,106 @@
             @endif
     
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="table-dark">
+              @if ($users->isEmpty())
+              <div class="alert alert-info">Tidak ada pengguna untuk ditampilkan.</div>
+          @else
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Status Akses</th> 
+                          <th>User ID</th>
+                          <th>Unit Organisasi</th>
+                          <th>Username</th>
+                          <th>Kode UNOR</th>
+                          <th>Email</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($users as $user)
                         <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Actions</th>
+                          <td class="text-center">
+                            @if($user->access_status == 1)
+                                <span class="badge badge-success">Aktif</span>
+                            @else
+                                <span class="badge badge-danger">Tidak Aktif</span>
+                            @endif
+                          </td>
+                            <td>{{ $user->user_id }}</td>
+                            <td>{{ $user->NM_UNOR }}</td>
+                            <td>{{ $user->username }}
+                                @if ($user->role === 'Super Admin')
+                                    <sup class="role-super-admin">{{ $user->role }}</sup>
+                                @elseif ($user->role === 'Admin Skpd')
+                                    <sup class="role-admin-skpd">{{ $user->role }}</sup>
+                                @elseif ($user->role === 'Admin Unor')
+                                    <sup class="role-admin-unor">{{ $user->role }}</sup>
+                                @else
+                                    {{ $user->role }}
+                                @endif
+                            </td>
+                            <td>{{ $user->KD_UNOR }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                              <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Detail
+                                    </button>
+                                    <div class="dropdown-menu" style="margin-right: 40px;">
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#accessUserModal" data-user-id="{{ $user->id }}">Akses User</a>
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                              </td>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($users as $user)
-                            <tr>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    <form action="{{ route('user.destroy', $user) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center">No users found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                    @endforeach
+                </tbody>                                              
+              </table>
+          @endif
             </div>
         </div>
-    </section>
+        <!-- Modal Form -->
+        <div class="modal fade" id="accessUserModal" tabindex="-1" role="dialog" aria-labelledby="accessUserModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="accessUserModalLabel">Pengaturan Akses Pengguna</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="accessForm" action="#" method="POST">
+                          @csrf
+                          @method('PUT')
+                          <input type="hidden" name="user_id" id="user_id">
+                          <div class="form-group">
+                              <label for="role">Role</label>
+                              <select class="form-control" id="role" name="role" disabled>
+                                  <option value="Super Admin">Super Admin</option>
+                                  <option value="Admin Skpd">Admin Skpd</option>
+                                  <option value="Admin Unor">Admin Unor</option>
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <label for="unit_organisasi">Unit Organisasi</label>
+                              <select class="form-control" id="unit_organisasi" name="unit_organisasi" disabled>
+                              </select>
+                          </div>
+                          <button type="submit" class="btn" id="submitButton">Nonaktifkan Akses</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+  </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -319,6 +450,57 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-toggle="modal"]').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            const form = document.getElementById('accessForm');
+            const submitButton = document.getElementById('submitButton');
+
+            fetch(`/users/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('user_id').value = data.user_id;
+                    const roleSelect = document.getElementById('role');
+                    roleSelect.value = data.role;
+
+                    const unitOrganisasiSelect = document.getElementById('unit_organisasi');
+                    unitOrganisasiSelect.innerHTML = '';
+
+                    fetch(`/units?role=${data.role}`)
+                        .then(response => response.json())
+                        .then(units => {
+                            units.forEach(unit => {
+                                const option = document.createElement('option');
+                                option.value = unit.KD_UNOR;
+                                option.textContent = unit.NM_UNOR;
+                                unitOrganisasiSelect.appendChild(option);
+                            });
+                            unitOrganisasiSelect.value = data.KD_UNOR;
+                        });
+
+                    // Mengubah tombol berdasarkan status akses
+                    if (data.access_status) {
+                        submitButton.textContent = 'Nonaktifkan Akses';
+                        submitButton.classList.remove('btn-danger');
+                        submitButton.classList.add('btn-warning');
+                        form.action = `/users/${userId}`; // Action untuk menonaktifkan akses
+                    } else {
+                        submitButton.textContent = 'Aktifkan Akses';
+                        submitButton.classList.remove('btn-warning');
+                        submitButton.classList.add('btn-success');
+                        form.action = `/users/${userId}/activate`; // Action untuk mengaktifkan kembali
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
+        });
+    });
+});
+
+</script>
+
 
 <!-- jQuery -->
 <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
