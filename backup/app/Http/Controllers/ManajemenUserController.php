@@ -57,18 +57,4 @@ class ManajemenUserController extends Controller
         return view('partials.users_table', compact('unor', 'users'));
     }
 
-    public function getAnalisisJabatanByUserId($userId)
-{
-    // Mengambil data analisis jabatan berdasarkan user_id
-    $analisisJabatan = AnalisisJabatan::whereHas('jabatan', function($query) use ($userId) {
-        $query->where('user_id', $userId); // Pastikan kolom ini ada di tabel jabatan
-    })->get();
-
-    if ($analisisJabatan->isEmpty()) {
-        return response()->json(['message' => 'Data analisis jabatan tidak ditemukan.'], 404);
-    }
-
-    return response()->json(['analisisJabatan' => $analisisJabatan]);
-}
-
 }

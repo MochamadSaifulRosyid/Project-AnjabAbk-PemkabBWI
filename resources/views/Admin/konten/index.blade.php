@@ -101,38 +101,38 @@
       </div>
 
       <!-- Sidebar Menu -->
-            <nav class="mt-2">
-              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                  @if(Auth::check())
-                      @if(Auth::user()->role === 'Super Admin')
-                          <!-- Menu untuk Super Admin -->
-                          <li class="nav-item">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            @if(Auth::check())
+                @php
+                    $isAccessClosed = !Auth::user()->access_status;
+                    $access = json_decode(Auth::user()->access, true) ?? [];
+                @endphp
+                @if(!$isAccessClosed)
+                    @if(Auth::user()->role === 'Super Admin')
+                        <!-- Menu untuk Super Admin -->
+                        <li class="nav-item">
                             <a href="/dashboard" class="nav-link">
-                              <i class="nav-icon fas fa-table"></i>
-                              <p>
-                                Dashboard
-                              </p>
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>Dashboard</p>
                             </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="/konten" class="nav-link">
-                                  <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                                  <p>Konten</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="/user" class="nav-link">
-                                  <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
-                                  <p>Sub User</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
+                            <a href="/konten" class="nav-link">
+                                <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                <p>Konten</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/user" class="nav-link">
+                                <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
+                                <p>Sub User</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
-                              <i class="fa-solid fa-bars-progress" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i> 
-                                <p>
-                                    Manajemen Data
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
+                                <i class="fa-solid fa-bars-progress" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                <p>Manajemen Data<i class="fas fa-angle-left right"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -142,94 +142,107 @@
                                     </a>
                                 </li>
                             </ul>
-                          </li>
-                      @elseif(Auth::user()->role === 'Admin Skpd')
-                          <!-- Menu untuk Admin Skpd -->
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
-                                  <p>
-                                      Analisis Jabatan
-                                      <i class="fas fa-angle-left right"></i>
-                                  </p>
-                              </a>
-                              <ul class="nav nav-treeview">
-                                  <li class="nav-item">
-                                      <a href="/jabatan" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Data Jabatan</p>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a href="/syaratjabatan" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Syarat Jabatan</p>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a href="/analisisjabatan" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Analisis Jabatan</p>
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                                  <p>
-                                      Analisis Beban Kerja
-                                      <i class="fas fa-angle-left right"></i>
-                                  </p>
-                              </a>
-                              <ul class="nav nav-treeview">
-                                  <li class="nav-item">
-                                      <a href="/datapegawai" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Data Pegawai</p>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a href="/dataabk" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Analisis Beban Kerja</p>
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
-                                  <p>
-                                      Laporan
-                                      <i class="fas fa-angle-left right"></i>
-                                  </p>
-                              </a>
-                              <ul class="nav nav-treeview">
-                                  <li class="nav-item">
-                                      <a href="/petajabatan" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Peta Jabatan</p>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a href="/hasilanjab" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Hasil Anjab</p>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a href="/hasilabk" class="nav-link">
-                                          <i class="far fa-circle nav-icon"></i>
-                                          <p>Hasil Abk</p>
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                      @endif
-                  @endif
-              </ul>
-          </nav>
+                        </li>
+                    @elseif(Auth::user()->role === 'Admin Skpd')
+                        <!-- Menu untuk Admin Skpd -->
+                        @if(isset($access['analisis_jabatan']) && $access['analisis_jabatan'])
+                        <li class="nav-item">
+                          <a href="/dashboard" class="nav-link">
+                              <i class="nav-icon fas fa-table"></i>
+                              <p>Dashboard</p>
+                          </a>
+                      </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                    <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/jabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Data Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/syaratjabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Syarat Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/analisisjabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Analisis Jabatan</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(isset($access['analisis_beban_kerja']) && $access['analisis_beban_kerja'])
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                    <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/datapegawai" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Data Pegawai</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dataabk" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Analisis Beban Kerja</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(isset($access['laporan']) && $access['laporan'])
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
+                                    <p>Laporan<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/petajabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Peta Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/hasilanjab" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Hasil Anjab</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/hasilabk" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Hasil Abk</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @endif
+                @else
+                    <!-- Jika akses ditutup -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link disabled" title="Akses ditutup, silahkan hubungi admin">
+                            <i class="nav-icon fas fa-ban" style="color: #dc3545;"></i>
+                            <p>Dashboard (Akses Ditutup)</p>
+                        </a>
+                    </li>
+                @endif
+            @endif
+        </ul>
+    </nav>
+    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

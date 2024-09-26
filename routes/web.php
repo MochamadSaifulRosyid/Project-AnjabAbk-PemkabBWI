@@ -35,6 +35,7 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
     // Rute untuk mengaktifkan akses kembali
     Route::put('/users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
     
+    Route::put('/users/{user}/access', [UserController::class, 'updateAccess'])->name('user.updateAccess');
 
 });
 

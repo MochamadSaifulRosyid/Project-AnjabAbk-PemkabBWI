@@ -23,7 +23,12 @@ class UsersTableSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('admin123'),
             'role' => 'Super Admin',
-            'NM_UNOR' => 'Pemerintah Kabupaten Banyuwangi'
+            'NM_UNOR' => 'Pemerintah Kabupaten Banyuwangi',
+            'access' => json_encode([
+                'analisis_jabatan' => 1,
+                'analisis_beban_kerja' => 1,
+                'laporan' => 1,
+            ]),
         ]);
 
         // Create admin SKPD user
@@ -34,7 +39,12 @@ class UsersTableSeeder extends Seeder
             'email' => 'adminskpd@gmail.com',
             'password' => Hash::make('admin123'),
             'role' => 'Admin Skpd',
-            'NM_UNOR' => 'Sekretariat Daerah'
+            'NM_UNOR' => 'Sekretariat Daerah',
+            'access' => json_encode([
+                'analisis_jabatan' => 1,
+                'analisis_beban_kerja' => 1,
+                'laporan' => 1,
+            ]),
         ]);
     }
 }

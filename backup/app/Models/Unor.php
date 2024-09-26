@@ -36,4 +36,6 @@ class Unor extends Model
     {
         return $this->hasMany(User::class, 'KD_UNOR', 'id');
     }
+    
+    
 }

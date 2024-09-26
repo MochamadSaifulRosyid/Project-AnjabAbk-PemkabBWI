@@ -54,6 +54,7 @@
         width: 70%;
         height: 600px;
         border: 1px solid #c2c2c2;
+        overflow-y: auto;
       }
       
       td, a {
@@ -96,7 +97,18 @@
         border-bottom: 1px solid #dee2e6; /* Garis bawah untuk pemisah */
         box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Opsional, untuk efek bayangan */
       }
-
+      .jenis-jabatan-struktural {
+        background-color: red;
+        color: white; /* Optional: to ensure text is readable */
+    }
+    .jenis-jabatan-fungsional {
+        background-color: yellow;
+        color: black; /* Optional: to ensure text is readable */
+    }
+    .jenis-jabatan-pelaksana {
+        background-color: blue;
+        color: white; /* Optional: to ensure text is readable */
+    }
 </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -201,6 +213,23 @@
                             <i class="fa-solid fa-users" style="color: #c2c2c2; margin-left: 4px; margin-right: 8px"></i>
                             <p>Sub User</p>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="fa-solid fa-bars-progress" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i> 
+                          <p>
+                              Manajemen Data
+                              <i class="fas fa-angle-left right"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="/manajemenuser" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Manajemen User</p>
+                              </a>
+                          </li>
+                      </ul>
                     </li>
                 @elseif(Auth::user()->role === 'Admin Skpd')
                     <!-- Menu untuk Admin Skpd -->
@@ -330,6 +359,7 @@
           </div>
         </form>
       </div>
+      
 
       <div class="table-wrapper mt-3">
         <table class="table table-striped">
@@ -379,6 +409,27 @@
 <!-- ./wrapper -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  $(document).ready(function() {
+      // Event handler untuk submit form pencarian
+      $('#search-form').on('submit', function(e) {
+          e.preventDefault(); // Mencegah pengiriman form default
+  
+          var query = $('#search-query').val().toLowerCase(); // Ambil nilai pencarian dan ubah ke huruf kecil
+          
+          // Filter baris tabel berdasarkan query
+          $('.table-wrapper tbody tr').each(function() {
+              var unitName = $(this).find('a').text().toLowerCase(); // Ambil nama unit organisasi dari setiap baris
+              if (unitName.includes(query)) {
+                  $(this).show(); // Tampilkan baris yang cocok
+              } else {
+                  $(this).hide(); // Sembunyikan baris yang tidak cocok
+              }
+          });
+      });
+  });
+  </script>
+  
+<script>
 $(document).on('click', '.unor-link', function(e) {
     e.preventDefault();
     var kdUnor = $(this).data('kd_unor');
@@ -386,113 +437,104 @@ $(document).on('click', '.unor-link', function(e) {
         url: '/unor/' + kdUnor + '/jabatans',
         method: 'GET',
         success: function(data) {
-            if (data.unor && data.jabatans) {
-                $('.sidebar-satu').html(`
-                    <div class="container-fluid">
-                      <h1>Data Jabatan untuk ${data.unor.NM_UNOR}</h1>
-                          ${data.jabatans.map(jabatan => `
-                              <table class="table table-striped table-bordered">
-                                <thead>
-                                  <tr>
-                                    <th>Kode Jabatan</th>
-                                    <th>Nama Jabatan</th>
-                                    <th>Unit Kerja</th>
-                                    <th>Aksi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                      <td>${jabatan.kode_jabatan}</td>
-                                      <td>${jabatan.nama_jabatan}<sup>${jabatan.jenis_jabatan}</sup></td>
-                                      <td>${jabatan.unit_kerja}</td>
-                                      <td>
-                                        <div class="btn-group">
-                                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                              Detail
-                                          </button>
-                                          <div class="dropdown-menu" style="margin-right: 50px;">
-                                              <a href="#" class="dropdown-item" data-action="analisis-jabatan">Analisis Jabatan</a>
-                                              <a href="#" class="dropdown-item" data-action="analisis-beban-kerja">Analisis Beban Kerja</a>
-                                              <a href="#" class="dropdown-item" data-action="peta-jabatan">Peta Jabatan</a>
+            // Preserve the title part
+            var contentHtml = `
+                <div class="container-fluid">
+                  <h3>${data.unor.NM_UNOR}</h3>
+            `;
 
-                                          </div>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                </tbody>
-                              </table>
-                          `).join('')}
-                    </div>
-                `);
+            if (data.unor && data.jabatans && data.jabatans.length > 0) {
+                // Prepare the rows for the table
+                var jabatanRows = data.jabatans.map(jabatan => {
+                    // Define background and text colors based on jenis_jabatan
+                    var jabatanBackgroundColor;
+                    var jabatanTextColor = 'white'; // Text color for all types
+                    switch (jabatan.jenis_jabatan) {
+                        case 'struktural':
+                            jabatanBackgroundColor = 'darkblue'; // Dark blue for structural
+                            break;
+                        case 'fungsional':
+                            jabatanBackgroundColor = 'darkgoldenrod'; // Dark goldenrod for functional
+                            break;
+                        case 'pelaksana':
+                            jabatanBackgroundColor = 'darkgreen'; // Dark green for executor
+                            break;
+                        default:
+                            jabatanBackgroundColor = 'gray'; // Default color if jenis_jabatan is unknown
+                            break;
+                    }
+
+                    // Define background color for status_jabatan
+                    var statusBackgroundColor;
+                    switch (jabatan.status_jabatan) {
+                        case 'aktif':
+                            statusBackgroundColor = 'green'; // Green for active
+                            break;
+                        case 'nonaktif':
+                            statusBackgroundColor = 'red'; // Red for inactive
+                            break;
+                        default:
+                            statusBackgroundColor = 'gray'; // Default color if status_jabatan is unknown
+                            break;
+                    }
+
+                    return `
+                        <tr>
+                          <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                  Download Data
+                              </button>
+                              <div class="dropdown-menu" style="margin-right: 50px;">
+                                  <a href="#" class="dropdown-item">Analisis Jabatan</a>
+                                  <a href="#" class="dropdown-item">Analisis Beban Kerja</a>
+                                  <a href="#" class="dropdown-item">Peta Jabatan</a>
+                              </div>
+                            </div>  
+                          </td>
+                          <td>${jabatan.eselon}</td>
+                          <td>${jabatan.kode_jabatan}</td>
+                          <td>${jabatan.nama_jabatan}<sup style="background-color: ${jabatanBackgroundColor}; color: ${jabatanTextColor}; padding: 2px 5px; border-radius: 3px;">${jabatan.jenis_jabatan}</sup></td>
+                          <td>${jabatan.unit_kerja}</td>
+                          <td><span style="background-color: ${statusBackgroundColor}; color: white; padding: 2px 5px; border-radius: 3px;">${jabatan.status_jabatan}</span></td>             
+                        </tr>
+                    `;
+                }).join('');
+
+                // Append the table HTML to contentHtml
+                contentHtml += `
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Aksi</th>
+                          <th>Eselon</th>
+                          <th>Kode Jabatan</th>
+                          <th>Nama Jabatan</th>
+                          <th>Unit Kerja</th>
+                          <th>Status Jabatan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${jabatanRows}
+                      </tbody>
+                    </table>
+                `;
             } else {
-                $('.sidebar-satu').html('<p>Data jabatan tidak ditemukan.</p>');
+                // If no data is found, display a message
+                contentHtml += '<p>Data jabatan tidak ditemukan. Silakan cek kembali atau hubungi Unit terkait.</p>';
             }
+
+            // Close the container-fluid div
+            contentHtml += '</div>';
+
+            // Update the sidebar content
+            $('.sidebar-satu').html(contentHtml);
         },
         error: function() {
-            $('.sidebar-satu').html('<p>Terjadi kesalahan saat memuat data.</p>');
+            $('.sidebar-satu').html('<div class="container-fluid"><p>Terjadi kesalahan saat memuat data. Silakan coba lagi nanti.</p></div>');
         }
     });
 });
-
-$(document).on('click', '.dropdown-item', function(e) {
-    e.preventDefault();
-    var action = $(this).data('action');
-    var userId = $(this).closest('tr').data('user-id'); // Pastikan `data-user-id` ditambahkan pada elemen tr
-
-    if (typeof userId === 'undefined') {
-        console.error('User ID is undefined');
-        $('.sidebar-satu').html('<p>Terjadi kesalahan saat memuat data.</p>');
-        return;
-    }
-
-    if (action === 'analisis-jabatan') {
-        var url = '{{ route('analisisjabatan.get', ['userId' => '__USER_ID__']) }}';
-        url = url.replace('__USER_ID__', userId);
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function(data) {
-                if (data.analisisJabatan) {
-                    $('.sidebar-satu').html(`
-                        <div class="container-fluid">
-                            <h1>Analisis Jabatan</h1>
-                            ${data.analisisJabatan.map(anjab => `
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode Jabatan</th>
-                                            <th>Nama Jabatan</th>
-                                            <th>Ikhtisar Jabatan</th>
-                                            <th>Objek Kerja</th>
-                                            <th>Uraian Tugas</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${anjab.kode_jabatan}</td>
-                                            <td>${anjab.nama_jabatan}</td>
-                                            <td>${anjab.ikhtisar_jabatan}</td>
-                                            <td>${anjab.objek_kerja}</td>
-                                            <td>${anjab.uraian_tugas}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `).join('')}
-                        </div>
-                    `);
-                } else {
-                    $('.sidebar-satu').html('<p>Data analisis jabatan tidak ditemukan.</p>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                $('.sidebar-satu').html('<p>Terjadi kesalahan saat memuat data.</p>');
-            }
-        });
-    }
-});
-
 
 </script>
 

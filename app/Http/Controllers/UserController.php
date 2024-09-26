@@ -90,7 +90,6 @@ class UserController extends Controller
     {
         $user->access_status = true;
         $user->save();
-
         return redirect()->route('user.index')->with('success', 'User access successfully activated.');
     }
     public function destroy(User $user)
@@ -104,7 +103,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return response()->json($user);
     }
-
     public function getUnitsByRole(Request $request)
     {
         $role = $request->input('role');
@@ -114,6 +112,8 @@ class UserController extends Controller
 
         return response()->json($unors);
     }
+
+
     public function dashboard()
     {
         $user = Auth::user();
@@ -126,5 +126,26 @@ class UserController extends Controller
         // Jika akses aktif, lanjutkan ke halaman dashboard
         return view('dashboard');
     }
+    public function updateAccess(Request $request, User $user)
+{
+    // Ambil akses yang ada atau inisialisasi dengan default
+    $access = json_decode($user->access, true) ?? [
+        'analisis_jabatan' => false,
+        'analisis_beban_kerja' => false,
+        'laporan' => false,
+    ];
+
+    // Update akses berdasarkan input dari form
+    $access['analisis_jabatan'] = $request->input('analisis_jabatan') === '1';
+    $access['analisis_beban_kerja'] = $request->input('analisis_beban_kerja') === '1';
+    $access['laporan'] = $request->input('laporan') === '1';
+
+    // Simpan kembali ke database
+    $user->access = json_encode($access);
+    $user->save();
+
+    return redirect()->route('user.index')->with('success', 'User access successfully updated.');
+}
+
 
 }

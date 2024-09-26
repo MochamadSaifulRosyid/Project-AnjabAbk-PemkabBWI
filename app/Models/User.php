@@ -18,6 +18,7 @@ class User extends Authenticatable
         'NM_UNOR', 
         'role',
         'access_status', // Menambahkan access_status
+        'access'
     ];
 
     protected $hidden = [
@@ -28,6 +29,7 @@ class User extends Authenticatable
     protected $casts = [
         'access_status' => 'boolean', // Mengatur akses_status sebagai boolean
         'email_verified_at' => 'datetime',
+        'access' => 'array',
     ];
     
 

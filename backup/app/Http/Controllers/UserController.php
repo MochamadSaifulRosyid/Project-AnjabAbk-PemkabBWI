@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Unor;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
 
     public function store(Request $request)
 {
-    // Validasi input, tanpa 'user_id'
+    // Validasi input
     $request->validate([
         'email' => [
             'required',
@@ -41,6 +42,11 @@ class UserController extends Controller
         'NM_UNOR' => 'required|string|max:255',
     ]);
 
+    // Cek apakah KD_UNOR sudah digunakan
+    if (User::where('KD_UNOR', $request->KD_UNOR)->exists()) {
+        return back()->withErrors(['KD_UNOR' => 'Unit Organisasi ini sudah digunakan.'])->withInput();
+    }
+
     // Mendapatkan user_id berikutnya
     $user_id = User::getNextUserId();
 
@@ -58,6 +64,7 @@ class UserController extends Controller
 }
 
 
+
     public function show(User $user)
     {
         return view('Admin.SUBUSER.show', compact('user'));
@@ -69,26 +76,55 @@ class UserController extends Controller
     }
 
     public function update(Request $request, User $user)
+{
+    $user->access_status = !$user->access_status; // Toggle status
+    $user->save();
+
+    return redirect()->route('user.index')->with('success', $user->access_status ? 'User access successfully activated.' : 'User access successfully deactivated.');
+}
+
+
+
+    // Fungsi untuk mengaktifkan kembali akses
+    public function activate(Request $request, User $user)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed',
-        ]);
-
-        $user->username = $request->input('username');
-
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-
+        $user->access_status = true;
         $user->save();
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully');
+        return redirect()->route('user.index')->with('success', 'User access successfully activated.');
     }
-
     public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
+
+    public function getUserById($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
+
+    public function getUnitsByRole(Request $request)
+    {
+        $role = $request->input('role');
+        
+        // Fetch units based on the role
+        $unors = Unor::all();
+
+        return response()->json($unors);
+    }
+    public function dashboard()
+    {
+        $user = Auth::user();
+        
+        // Periksa apakah akses dinonaktifkan
+        if (!$user->access_status) {
+            return redirect()->route('access.denied');
+        }
+
+        // Jika akses aktif, lanjutkan ke halaman dashboard
+        return view('dashboard');
+    }
+
 }

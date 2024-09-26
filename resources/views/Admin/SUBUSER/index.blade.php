@@ -169,6 +169,7 @@ select::-ms-expand {
             @if(Auth::check())
                 @php
                     $isAccessClosed = !Auth::user()->access_status;
+                    $access = json_decode(Auth::user()->access, true) ?? [];
                 @endphp
                 @if(!$isAccessClosed)
                     @if(Auth::user()->role === 'Super Admin')
@@ -207,78 +208,90 @@ select::-ms-expand {
                         </li>
                     @elseif(Auth::user()->role === 'Admin Skpd')
                         <!-- Menu untuk Admin Skpd -->
+                        @if(isset($access['analisis_jabatan']) && $access['analisis_jabatan'])
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
-                                <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
+                            <a href="/dashboard" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>Dashboard</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/jabatan" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Data Jabatan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/syaratjabatan" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Syarat Jabatan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/analisisjabatan" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Analisis Jabatan</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                                <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/datapegawai" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Data Pegawai</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/dataabk" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Analisis Beban Kerja</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
-                                <p>Laporan<i class="fas fa-angle-left right"></i></p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/petajabatan" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Peta Jabatan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/hasilanjab" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Hasil Anjab</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/hasilabk" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Hasil Abk</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                    <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/jabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Data Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/syaratjabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Syarat Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/analisisjabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Analisis Jabatan</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(isset($access['analisis_beban_kerja']) && $access['analisis_beban_kerja'])
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                    <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/datapegawai" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Data Pegawai</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dataabk" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Analisis Beban Kerja</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(isset($access['laporan']) && $access['laporan'])
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
+                                    <p>Laporan<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/petajabatan" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Peta Jabatan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/hasilanjab" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Hasil Anjab</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/hasilabk" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Hasil Abk</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                     @endif
                 @else
                     <!-- Jika akses ditutup -->
@@ -292,6 +305,9 @@ select::-ms-expand {
             @endif
         </ul>
     </nav>
+    
+    
+    
     
     
     
@@ -325,114 +341,144 @@ select::-ms-expand {
     <section class="content">
         <div class="container-fluid">
             <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
-    
+            <a href="" class="btn btn-warning mb-3" style="color: white">Pengaturan Akses</a>
+        
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
                     {{ session('success') }}
                 </div>
             @endif
-    
+        
             <div class="table-responsive">
-              @if ($users->isEmpty())
-              <div class="alert alert-info">Tidak ada pengguna untuk ditampilkan.</div>
-          @else
-              <table class="table table-striped">
-                  <thead>
-                      <tr>
-                          <th>Status Akses</th> 
-                          <th>User ID</th>
-                          <th>Unit Organisasi</th>
-                          <th>Username</th>
-                          <th>Kode UNOR</th>
-                          <th>Email</th>
-                          <th>Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                          <td class="text-center">
-                            @if($user->access_status == 1)
-                                <span class="badge badge-success">Aktif</span>
-                            @else
-                                <span class="badge badge-danger">Tidak Aktif</span>
-                            @endif
-                          </td>
-                            <td>{{ $user->user_id }}</td>
-                            <td>{{ $user->NM_UNOR }}</td>
-                            <td>{{ $user->username }}
-                                @if ($user->role === 'Super Admin')
-                                    <sup class="role-super-admin">{{ $user->role }}</sup>
-                                @elseif ($user->role === 'Admin Skpd')
-                                    <sup class="role-admin-skpd">{{ $user->role }}</sup>
-                                @elseif ($user->role === 'Admin Unor')
-                                    <sup class="role-admin-unor">{{ $user->role }}</sup>
-                                @else
-                                    {{ $user->role }}
-                                @endif
-                            </td>
-                            <td>{{ $user->KD_UNOR }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                              <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        Detail
-                                    </button>
-                                    <div class="dropdown-menu" style="margin-right: 40px;">
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#accessUserModal" data-user-id="{{ $user->id }}">Akses User</a>
-                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
-                                        </form>
-                                    </div>
-                                </div>
-                              </td>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>                                              
-              </table>
-          @endif
+                @if ($users->isEmpty())
+                    <div class="alert alert-info">Tidak ada pengguna untuk ditampilkan.</div>
+                @else
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Unit Organisasi</th>
+                                <th>Username</th>
+                                <th>Kode UNOR</th>
+                                <th>Email</th>
+                                <th>Akses</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user->user_id }}</td>
+                                    <td>{{ $user->NM_UNOR }}</td>
+                                    <td>{{ $user->username }}
+                                        @if ($user->role === 'Super Admin')
+                                            <sup class="role-super-admin">{{ $user->role }}</sup>
+                                        @elseif ($user->role === 'Admin Skpd')
+                                            <sup class="role-admin-skpd">{{ $user->role }}</sup>
+                                        @elseif ($user->role === 'Admin Unor')
+                                            <sup class="role-admin-unor">{{ $user->role }}</sup>
+                                        @else
+                                            {{ $user->role }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->KD_UNOR }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        @php
+                                            $access = json_decode($user->access, true) ?? [];
+                                        @endphp
+                                        <span class="{{ isset($access['analisis_jabatan']) && $access['analisis_jabatan'] ? 'text-success' : 'text-danger' }}">
+                                            Akses Jabatan: {{ isset($access['analisis_jabatan']) && $access['analisis_jabatan'] ? 'Aktif' : 'Nonaktif' }}
+                                        </span><br>
+                                        <span class="{{ isset($access['analisis_beban_kerja']) && $access['analisis_beban_kerja'] ? 'text-success' : 'text-danger' }}">
+                                            Akses Beban Kerja: {{ isset($access['analisis_beban_kerja']) && $access['analisis_beban_kerja'] ? 'Aktif' : 'Nonaktif' }}
+                                        </span><br>
+                                        <span class="{{ isset($access['laporan']) && $access['laporan'] ? 'text-success' : 'text-danger' }}">
+                                            Akses Laporan: {{ isset($access['laporan']) && $access['laporan'] ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                Detail
+                                            </button>
+                                            <div class="dropdown-menu" style="margin-right: 40px;">
+                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#accessUserModal" data-user-id="{{ $user->id }}">Akses User</a>
+                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
+        
         <!-- Modal Form -->
+        
         <div class="modal fade" id="accessUserModal" tabindex="-1" role="dialog" aria-labelledby="accessUserModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="accessUserModalLabel">Pengaturan Akses Pengguna</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <form id="accessForm" action="#" method="POST">
-                          @csrf
-                          @method('PUT')
-                          <input type="hidden" name="user_id" id="user_id">
-                          <div class="form-group">
-                              <label for="role">Role</label>
-                              <select class="form-control" id="role" name="role" disabled>
-                                  <option value="Super Admin">Super Admin</option>
-                                  <option value="Admin Skpd">Admin Skpd</option>
-                                  <option value="Admin Unor">Admin Unor</option>
-                              </select>
-                          </div>
-                          <div class="form-group">
-                              <label for="unit_organisasi">Unit Organisasi</label>
-                              <select class="form-control" id="unit_organisasi" name="unit_organisasi" disabled>
-                              </select>
-                          </div>
-                          <button type="submit" class="btn" id="submitButton">Nonaktifkan Akses</button>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-      
-  </section>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="accessUserModalLabel">Pengaturan Akses Pengguna</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="accessForm" action="{{ route('user.updateAccess', $user->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <select class="form-control" id="role" name="role" disabled>
+                                    <option value="Super Admin">Super Admin</option>
+                                    <option value="Admin Skpd">Admin Skpd</option>
+                                    <option value="Admin Unor">Admin Unor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="unit_organisasi">Unit Organisasi</label>
+                                <select class="form-control" id="unit_organisasi" name="unit_organisasi" disabled>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="analisis_jabatan">Akses Analisis Jabatan</label>
+                                <select class="form-control" id="analisis_jabatan" name="analisis_jabatan">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Nonaktif</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="analisis_beban_kerja">Akses Analisis Beban Kerja</label>
+                                <select class="form-control" id="analisis_beban_kerja" name="analisis_beban_kerja">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Nonaktif</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="laporan">Akses Laporan</label>
+                                <select class="form-control" id="laporan" name="laporan">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Nonaktif</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -452,6 +498,22 @@ select::-ms-expand {
 <!-- ./wrapper -->
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-toggle="modal"]').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            fetch(`/users/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const access = JSON.parse(data.access) || {};
+                    document.getElementById('analisis_jabatan').value = access.analisis_jabatan ? 1 : 0;
+                    document.getElementById('analisis_beban_kerja').value = access.analisis_beban_kerja ? 1 : 0;
+                    document.getElementById('laporan').value = access.laporan ? 1 : 0;
+                });
+        });
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-toggle="modal"]').forEach(button => {
         button.addEventListener('click', function() {
@@ -498,7 +560,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
 </script>
 
 
