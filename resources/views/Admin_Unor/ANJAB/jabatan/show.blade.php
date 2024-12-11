@@ -9,6 +9,12 @@
     <!-- Link to custom CSS (optional) -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
+        .container {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #343a40;
+            border: none;
+        }
         .page-title {
             color: #343a40; /* Dark color for title */
             font-size: 2rem; /* Increase font size for the title */
@@ -37,7 +43,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="page-title">Detail Jabatan</h1>
+        <h1 class="page-title" style="color: white">Detail Jabatan</h1>
 
         <div class="card">
             <div class="card-header">
@@ -67,12 +73,19 @@
                     </div>
 
                     <div class="row mb-3">
+                                            <label for="jenjang" class="col-sm-3 col-form-label form-label">Jenjang</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control-plaintext" id="jenjang" value="{{ $jabatan->jenjang }}" readonly>
+                                            </div>
+                                        </div>
+
+                    <div class="row mb-3">
                         <label for="namaJabatan" class="col-sm-3 col-form-label form-label">Nama Jabatan</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control-plaintext" id="namaJabatan" value="{{ $jabatan->nama_jabatan }}" readonly>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <label for="eselon" class="col-sm-3 col-form-label form-label">Eselon</label>
                         <div class="col-sm-9">

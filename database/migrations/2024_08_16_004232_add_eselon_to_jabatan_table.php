@@ -23,7 +23,7 @@ class AddEselonToJabatanTable extends Migration
                 'Eselon 4A / Jabatan Pengawas (F)',
                 'Kelompok',
                 'Sub Kelompok'
-            ]); // Tambahkan nullable jika kolom ini boleh kosong
+            ])->nullable(); // Tambahkan nullable untuk kolom ini
         });
     }
 

@@ -19,9 +19,51 @@
   <style>
     .disabled {
     pointer-events: none;
-    color: #6c757d; 
+    color: #6c757d;
     cursor: not-allowed;
-}
+}/* Menambahkan gradient untuk header card */
+ .bg-gradient-primary {
+     background: linear-gradient(to right, #0066cc, #33b5e5);
+ }
+
+ /* Styling tabel */
+ .table-bordered th, .table-bordered td {
+     border: 1px solid #ddd !important;
+ }
+
+ .table th, .table td {
+     padding: 12px;
+     text-align: center;
+ }
+
+ .table-striped tbody tr:nth-child(odd) {
+     background-color: #f8f9fa;
+ }
+
+ .table-striped tbody tr:nth-child(even) {
+     background-color: #fff;
+ }
+
+ /* Hover effect yang lebih halus */
+ .table tbody tr:hover {
+     background-color: #f1f1f1;
+     cursor: pointer;
+ }
+
+ /* Shadow pada card */
+ .card.shadow-lg {
+     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+ }
+ /* Efek hover dengan zoom pada th */
+ .table th {
+     transition: transform 0.3s ease, background-color 0.3s ease;
+ }
+
+ .table th:hover {
+     transform: scale(1.1); /* Memperbesar ukuran elemen saat hover */
+     background-color: #4e73df; /* Menambahkan warna latar belakang saat hover */
+ }
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -52,18 +94,8 @@
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
           @csrf
           </form>
-          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+          <a class="ml-3 mb-mt-2" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
       </li>
     </ul>
   </nav>
@@ -89,18 +121,6 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @if(Auth::check())
@@ -111,12 +131,6 @@
                 @if(!$isAccessClosed)
                     @if(Auth::user()->role === 'Super Admin')
                         <!-- Menu untuk Super Admin -->
-                        <li class="nav-item">
-                            <a href="/dashboard" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="/konten" class="nav-link">
                                 <i class="fa-solid fa-image" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
@@ -146,12 +160,6 @@
                     @elseif(Auth::user()->role === 'Admin Skpd')
                         <!-- Menu untuk Admin Skpd -->
                         @if(isset($access['analisis_jabatan']) && $access['analisis_jabatan'])
-                            <li class="nav-item">
-                              <a href="/dashboard" class="nav-link">
-                                  <i class="nav-icon fas fa-table"></i>
-                                  <p>Dashboard</p>
-                              </a>
-                          </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
@@ -214,18 +222,6 @@
                                             <p>Peta Jabatan</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilanjab" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Anjab</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilabk" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Abk</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                         @endif
@@ -240,9 +236,9 @@
                     </li>
                 @endif
             @endif
-        </ul>
+        </ul>
     </nav>
-    
+
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -255,85 +251,101 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0"><i class="nav-icon fas fa-table mr-2"></i>Dashboard</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
     <section class="content">
       <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
-          <div class="row">
-              <div class="col-lg-3 col-6">
-                  <!-- small box -->
-                  <div class="small-box bg-info">
-                      <div class="inner">
-                          <h3>{{ $jumlahJabatanStruktural }}</h3>
-                          <p>Jabatan Struktural</p>
+              <div class="row" style="margin-top: 12px;">
+                 @if(Auth::user()->role === 'Admin Skpd')
+                  <!-- Konten untuk Admin Skpd -->
+                  <div class="col-lg-4 col-6">
+                      <div class="small-box bg-info">
+                          <div class="inner">
+                              <h3>{{ $jumlahJabatanStruktural }}</h3>
+                              <p>Jabatan Struktural</p>
+                          </div>
+                          <div class="icon">
+                              <i class="ion ion-stats-bars"></i>
+                          </div>
+                          <a href="#" class="small-box-footer">Jabatan Struktural</a>
                       </div>
-                      <div class="icon">
-                          <i class="ion ion-stats-bars"></i>
+                  </div>
+                  <div class="col-lg-4 col-6">
+                      <div class="small-box bg-success">
+                          <div class="inner">
+                              <h3>{{ $jumlahJabatanFungsional }}</h3>
+                              <p>Jabatan Fungsional</p>
+                          </div>
+                          <div class="icon">
+                              <i class="ion ion-stats-bars"></i>
+                          </div>
+                          <a href="#" class="small-box-footer">Jabatan Fungsional</a>
                       </div>
-                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                      <a href="#" class="small-box-footer">Jabatan Struktural</a>
+                  </div>
+                  <div class="col-lg-4 col-6">
+                      <div class="small-box bg-warning">
+                          <div class="inner">
+                              <h3>{{ $jumlahJabatanPelaksana }}</h3>
+                              <p>Jabatan Pelaksana</p>
+                          </div>
+                          <div class="icon">
+                              <i class="ion ion-stats-bars"></i>
+                          </div>
+                          <a href="#" class="small-box-footer">Jabatan Pelaksana</a>
+                      </div>
                   </div>
               </div>
-              <!-- ./col -->
-              <div class="col-lg-3 col-6">
-                  <!-- small box -->
-                  <div class="small-box bg-success">
-                      <div class="inner">
-                          <h3>{{ $jumlahJabatanFungsional }}</h3>
-                          <p>Jabatan Fungsional</p>
+                  @elseif(Auth::user()->role === 'Super Admin')
+                      <!-- Konten untuk Super Admin -->
+                      <div class="col-12" style="margin-top: 3px;">
+                          <div class="card shadow-lg">
+                              <div class="card-header bg-gradient-primary text-white">
+                                  <h4 class="mb-0" style="text-align: center; font-family: 'Roboto', sans-serif;">Aktivitas User</h4>
+                              </div>
+                              <div class="card-body">
+                                  <div class="table-responsive">
+                                      <table class="table table-bordered table-hover">
+                                          <thead class="thead-dark">
+                                              <tr>
+                                                  <th>No</th>
+                                                  <th>Waktu Login</th>
+                                                  <th>Username</th>
+                                                  <th>Email</th>
+                                                  <th>Waktu Logout</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              @foreach($adminSkpdUsers as $key => $user)
+                                                  <tr>
+                                                      <td>{{ $key + 1 }}</td>
+                                                      <td>{{ $user->access_start_datetime ? $user->access_start_datetime->format('d-m-Y H:i') : 'Belum login' }}</td>
+                                                      <td>{{ $user->username }}</td>
+                                                      <td>{{ $user->email }}</td>
+                                                      <td>{{ $user->access_end_datetime ? $user->access_end_datetime->format('d-m-Y H:i') : 'Belum logout' }}</td>
+                                                  </tr>
+                                              @endforeach
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
                       </div>
-                      <div class="icon">
-                          <i class="ion ion-stats-bars"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Jabatan Fungsional</a>
-                  </div>
-              </div>
-              <!-- ./col -->
-              <div class="col-lg-3 col-6">
-                  <!-- small box -->
-                  <div class="small-box bg-warning">
-                      <div class="inner">
-                          <h3>{{ $jumlahJabatanPelaksana }}</h3>
-                          <p>Jabatan Pelaksana</p>
-                      </div>
-                      <div class="icon">
-                          <i class="ion ion-stats-bars"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Jabatan Pelaksana</a>
-                  </div>
-              </div>
-              <!-- ./col -->
-              <div class="col-lg-3 col-6">
-                  <!-- small box -->
-                  <div class="small-box bg-danger">
-                      <div class="inner">
-                          <h3>{{ $totalPegawai }}</h3>
-                          <p>Total Pegawai</p>
-                      </div>
-                      <div class="icon">
-                          <i class="ion ion-pie-graph"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Total Pegawai</a>
-                  </div>
-              </div>
-              <!-- ./col -->
+                  @endif
+
           </div>
-          <!-- /.row -->
       </div><!-- /.container-fluid -->
   </section>
-  
-    
+
+
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -367,7 +379,7 @@
 <script>
     document.querySelector('#logout-button').addEventListener('click', function(event) {
     event.preventDefault();
-    
+
     fetch('{{ route('logout') }}', {
         method: 'POST',
         headers: {
@@ -377,7 +389,7 @@
         body: JSON.stringify({})
     }).then(response => {
         if (response.ok) {
-            window.location.href = '/'; 
+            window.location.href = '/';
         }
     });
 });

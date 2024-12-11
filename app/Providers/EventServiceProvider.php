@@ -23,9 +23,19 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Register any events for your application.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        parent::boot();
+
+        // Mendengarkan event login
+        Event::listen(Authenticated::class, function ($event) {
+            $user = $event->user;
+
+            // Menyimpan waktu login ke kolom 'access_start_datetime'
+            $user->update([
+                'access_start_datetime' => now(),
+            ]);
+        });
     }
 
     /**

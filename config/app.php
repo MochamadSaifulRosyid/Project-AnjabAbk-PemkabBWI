@@ -68,8 +68,8 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
+    'timezone' => 'Asia/Jakarta', // Sesuaikan dengan zona waktu yang benar
 
-    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
 
         /*
          * Package Service Providers...

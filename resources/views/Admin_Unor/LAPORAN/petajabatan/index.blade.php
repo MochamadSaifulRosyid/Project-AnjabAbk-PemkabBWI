@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ANJAB-ABK | Dashboard</title>
+  <title>ANJAB-ABK | Peta Jabatan</title>
 
   <!-- Fonts and Styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,20 +17,122 @@
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/daterangepicker/daterangepicker.css') }}">
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+
   <style>
-    /* Custom styling */
-    .page-title {
-        color: #343a40; /* Dark color for title */
-    }
-    .table thead {
-        background-color: #343a40; /* Dark background for table header */
-        color: #ffffff; /* White text color for header */
-    }
-    .table th, .table td {
-        vertical-align: middle; /* Align text vertically in table cells */
-    }
-  </style>
+      body {
+          background-color: #eef2f7;
+          font-family: 'Arial', sans-serif;
+      }
+
+      .diagram-container {
+          width: 100%;
+          transform-origin: center center; /* Mengatur titik asal zoom ke pusat kontainer */
+          transition: transform 0.3s ease; /* Efek transisi zoom */
+          display: flex;
+          justify-content: center; /* Memastikan konten berada di tengah */
+          align-items: center;
+          height: 100%; /* Menjamin tinggi penuh */
+      }
+
+
+      .diagram {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          position: relative;
+      }
+
+      .node {
+          position: relative;
+          margin: 20px 0;
+      }
+
+      /* Box Jabatan */
+      .box {
+          border: 1px solid #4e73df;
+          padding: 20px;
+          border-radius: 10px;
+          background: linear-gradient(145deg, #ffffff, #dfe9f3);
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .box:hover {
+          transform: translateY(-10px) scale(1.05);
+          box-shadow: 0 10px 20px rgba(78, 115, 223, 0.3);
+          background: linear-gradient(145deg, #4e73df, #1c4b97);
+          color: #fff;
+      }
+
+      .children {
+          display: flex;
+          justify-content: center;
+          position: relative;
+          width: 100%;
+          margin-top: 20px;
+      }
+
+      .children::before {
+          content: '';
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #4e73df;
+      }
+
+      .children > .node {
+          position: relative;
+          margin: 0 10px;
+      }
+
+      /* Menambahkan SVG Path sebagai penghubung */
+      .children > .node::before {
+          content: '';
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 2px;
+          height: 20px;
+          background: #4e31fe;
+      }
+
+      @media (max-width: 768px) {
+          .box {
+              font-size: 14px;
+          }
+
+          .children {
+              flex-direction: column;
+          }
+
+          .children > .node {
+              margin: 10px 0;
+          }
+      }
+
+      .zoom-controls {
+          display: flex;
+          justify-content: center;
+      }
+
+      .zoom-in, .zoom-out {
+          font-size: 16px;
+          cursor: pointer;
+          border: none;
+      }
+
+      .zoom-in:disabled, .zoom-out:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+      }
+
+</style>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   @if($errors->any())
@@ -69,18 +171,8 @@
     @csrf
 </form>
 
-<a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+<a class="m-3" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
       </li>
     </ul>
   </nav>
@@ -106,19 +198,6 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @if(Auth::check())
@@ -232,18 +311,6 @@
                                             <p>Peta Jabatan</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilanjab" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Anjab</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilabk" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Abk</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                         @endif
@@ -258,9 +325,8 @@
                     </li>
                 @endif
             @endif
-        </ul>
+        </ul>
     </nav>
-    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -273,33 +339,48 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Peta Jabatan</h1>
+            <h1 class="m-0"><i class="fa-solid fa-map m-2"></i>Peta Jabatan</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Peta Jabatan</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <section class="konten">
-      <form action="">
-          <table>
-            <tr>
-              
-            </tr>
-          </table>
-      </form>
-    </section>
+
     <!-- Main content -->
-    
+    <section class="content">
+        <div>
+            <h1 class="mb-4 text-center" style="color: #4e73df;">Diagram Hirarki Jabatan<sup><i class="zoom-in"></i></sup></h1>
+
+                <i class="zoom-out"></i>
+            <div class="diagram-container">
+                <div class="diagram">
+                    @foreach ($jabatans as $jabatan)
+                        <div class="node">
+                            <div class="box">
+                                <strong>{{ $jabatan->nama_jabatan }}</strong>
+                            </div>
+                            @if ($jabatan->anakJabatans->isNotEmpty())
+                                <div class="children">
+                                    @foreach ($jabatan->anakJabatans as $anakJabatan)
+                                        @include('Admin_Unor.LAPORAN.petajabatan.peta_jabatan_list', ['anakJabatan' => $anakJabatan])
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
+
   <footer class="main-footer">
     <strong>Created By Pemkab Bwi <a href="https://adminlte.io">AnjabAbk.id</a></strong>
     <div class="float-right d-none d-sm-inline-block">
@@ -314,8 +395,70 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
 <!-- Scripts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let diagramContainer = document.querySelector('.diagram-container');
+        let zoomInButton = document.querySelector('.zoom-in');
+        let zoomOutButton = document.querySelector('.zoom-out');
+        let scale = 1;  // Variabel untuk skala yang akan dikontrol
+        let minScale = 0.5;  // Skala minimal
+        let maxScale = 3;  // Skala maksimal
+
+        // Fungsi untuk melakukan zoom in
+        zoomInButton.addEventListener('click', function() {
+            if (scale < maxScale) {
+                scale += 0.1;  // Menambah skala sebesar 0.1
+                diagramContainer.style.transform = `scale(${scale})`;  // Terapkan skala pada container
+            }
+        });
+
+        // Fungsi untuk melakukan zoom out
+        zoomOutButton.addEventListener('click', function() {
+            if (scale > minScale) {
+                scale -= 0.1;  // Mengurangi skala sebesar 0.1
+                diagramContainer.style.transform = `scale(${scale})`;  // Terapkan skala pada container
+            }
+        });
+
+        // Fungsi untuk zoom menggunakan scroll
+        diagramContainer.addEventListener('wheel', function(event) {
+            event.preventDefault();  // Mencegah scroll biasa
+            if (event.deltaY < 0 && scale < maxScale) {
+                scale += 0.1;  // Zoom in
+            } else if (event.deltaY > 0 && scale > minScale) {
+                scale -= 0.1;  // Zoom out
+            }
+            diagramContainer.style.transform = `scale(${scale})`;  // Terapkan skala pada container
+        });
+
+        // Menambahkan event listener untuk drag diagram
+        let isDragging = false;
+        let startX, startY;
+
+        diagramContainer.addEventListener('mousedown', function(event) {
+            isDragging = true;
+            startX = event.clientX;
+            startY = event.clientY;
+            diagramContainer.style.transition = 'none';  // Menonaktifkan transisi saat dragging
+        });
+
+        document.addEventListener('mousemove', function(event) {
+            if (isDragging) {
+                let moveX = event.clientX - startX;
+                let moveY = event.clientY - startY;
+                diagramContainer.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;  // Terapkan translate dan scale
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            diagramContainer.style.transition = 'transform 0.3s ease';  // Mengembalikan transisi setelah dragging selesai
+        });
+    });
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/regular.min.js" integrity="sha512-kOmvRi+0imoekwslOzP/X1LXQnzcttzqYYt3urKD4nhd5fMYwRfXgDS5Nh7b7pQjKPjBPSX9PmhCLrkfkxUcBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- jQuery -->
 <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -352,3 +495,5 @@
 <script src="{{ asset('AdminLTE/dist/js/pages/dashboard.js') }}"></script>
 </body>
 </html>
+
+

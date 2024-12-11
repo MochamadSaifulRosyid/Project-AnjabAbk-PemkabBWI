@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ANJAB-ABK | Dashboard</title>
+  <title>ANJAB-ABK | Manajemen Data</title>
 
   <!-- Link to stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,98 +17,46 @@
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/daterangepicker/daterangepicker.css') }}">
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
         background: linear-gradient(to right, #f4f7f6, #e3e4e8);
         color: #333;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .container-fluid {
-      border-radius: 5px;
+    a {
+        text-decoration: none;
     }
-    .table-wrapper {
-            position: relative;
-            overflow: auto;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table th {
-            position: -webkit-sticky; /* For Safari */
-            position: sticky;
-            top: 0;
-            background-color: white; /* Change to match your design */
-            z-index: 1;
-            border: 1px solid #dee2e6; /* Optional, to match table borders */
-        }
-        .table td {
-            padding: 8px; /* Adjust padding as necessary */
-            border: 1px solid #dee2e6; /* Optional, to match table borders */
-        }
-        .table thead th {
-            background-color: #f8f9fa; /* Optional, for header background */
-        }
-    .sidebar-satu {
-        float: left;
-        width: 70%;
-        height: 600px;
-        border: 1px solid #c2c2c2;
-        overflow-y: auto;
-      }
-      
-      td, a {
-        color: black;
-      }
-      sup {
-        background-color: 
-      }
-      .jabatan-struktural {
-      background-color: #f8d7da; /* Merah muda */
-      color: #721c24; /* Merah tua */
-      }
-
-      .jabatan-fungsional {
-          background-color: #fff3cd; /* Kuning muda */
-          color: #856404; /* Kuning tua */
-      }
-
-      .jabatan-pelaksana {
-          background-color: #d1ecf1; /* Biru muda */
-          color: #0c5460; /* Biru tua */
-      }
-      .sidebar-dua {
-        float: left;
-        width: 30%;
-        height: 600px;
-        border: 1px solid #c2c2c2;
-        position: relative;
-        height: 600px; /* Sesuaikan dengan kebutuhan */
-        overflow-y: auto;
-      }
 
       .search-form {
-        position: -webkit-sticky; /* Untuk browser berbasis Webkit */
-        position: sticky;
-        top: 0; /* Jarak dari bagian atas container */
-        background-color: white; /* Latar belakang agar kontras dengan daftar */
-        z-index: 10; /* Untuk memastikan form tetap di atas elemen lain */
-        padding: 10px; /* Padding untuk memberikan jarak di sekeliling */
-        border-bottom: 1px solid #dee2e6; /* Garis bawah untuk pemisah */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Opsional, untuk efek bayangan */
-      }
-      .jenis-jabatan-struktural {
-        background-color: red;
-        color: white; /* Optional: to ensure text is readable */
-    }
-    .jenis-jabatan-fungsional {
-        background-color: yellow;
-        color: black; /* Optional: to ensure text is readable */
-    }
-    .jenis-jabatan-pelaksana {
-        background-color: blue;
-        color: white; /* Optional: to ensure text is readable */
-    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Pastikan form tetap di atas elemen lain */
+    background: linear-gradient(135deg, #f8f9fa, #e2e6ea); /* Gradien lembut */
+    padding: 20px; /* Jarak dalam form */
+    border-radius: 8px; /* Sudut membulat */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+}
+
+/* Styling untuk keseluruhan form */
+#search-form {
+    width: 100%; /* Memastikan form menggunakan lebar penuh */
+    display: flex;
+    flex-wrap: wrap; /* Agar elemen tidak terpotong */
+}
+
+.rotate-icon i {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon[aria-expanded="true"] i {
+    transform: rotate(90deg);
+}
+
 </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -118,7 +66,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars ml-3"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
       <a href="#" class="nav-link" style="color: black;">Pemerintah Daerah Kabupaten Banyuwangi</a>
@@ -128,7 +76,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-user"></i>
+          <i class="far fa-user mr-3"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -139,18 +87,8 @@
     @csrf
 </form>
 
-<a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+<a class="m-3" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
       </li>
     </ul>
   </nav>
@@ -176,25 +114,11 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @if(Auth::check())
                 @php
                     $isAccessClosed = !Auth::user()->access_status;
-                    $access = json_decode(Auth::user()->access, true) ?? [];
                 @endphp
                 @if(!$isAccessClosed)
                     @if(Auth::user()->role === 'Super Admin')
@@ -233,90 +157,84 @@
                         </li>
                     @elseif(Auth::user()->role === 'Admin Skpd')
                         <!-- Menu untuk Admin Skpd -->
-                        @if(isset($access['analisis_jabatan']) && $access['analisis_jabatan'])
                         <li class="nav-item">
-                          <a href="/dashboard" class="nav-link">
-                              <i class="nav-icon fas fa-table"></i>
-                              <p>Dashboard</p>
-                          </a>
-                      </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
-                                    <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/jabatan" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Data Jabatan</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/syaratjabatan" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Syarat Jabatan</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/analisisjabatan" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Analisis Jabatan</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                        @if(isset($access['analisis_beban_kerja']) && $access['analisis_beban_kerja'])
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
-                                    <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/datapegawai" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Data Pegawai</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/dataabk" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Analisis Beban Kerja</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                        @if(isset($access['laporan']) && $access['laporan'])
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
-                                    <p>Laporan<i class="fas fa-angle-left right"></i></p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/petajabatan" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Peta Jabatan</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilanjab" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Anjab</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilabk" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Abk</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
+                            <a href="/dashboard" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
+                                <p>Analisis Jabatan<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/jabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Data Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/syaratjabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Syarat Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/analisisjabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Analisis Jabatan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-briefcase" style="color: #c2c2c2; margin-left: 6px; margin-right: 10px"></i>
+                                <p>Analisis Beban Kerja<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/datapegawai" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Data Pegawai</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/dataabk" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Analisis Beban Kerja</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-file" style="color: #c2c2c2; margin-left: 8px; margin-right: 10px"></i>
+                                <p>Laporan<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/petajabatan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Peta Jabatan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/hasilanjab" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hasil Anjab</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/hasilabk" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hasil Abk</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     @endif
                 @else
                     <!-- Jika akses ditutup -->
@@ -330,7 +248,6 @@
             @endif
         </ul>
     </nav>
-    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -343,67 +260,192 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Manajemen User</h1>
+            <h1 class="m-0"><i class="fa-solid fa-bars-progress m-2"></i>Manajemen User</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Manajemen User</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-<!-- Main content -->
-<section class="konten">
-  <div class="container-fluid">
-    <div class="sidebar-satu">
-      <h1>Silakan pilih Unit Organisasi</h1>
-    </div>
-    <div class="sidebar-dua">
-      <div class="search-form">
-        <form id="search-form">
-          <div class="input-group">
-            <input type="text" class="form-control" id="search-query" placeholder="Cari Unit">
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="submit">Cari</button>
+    <section class="konten" style="margin-top: 3px;">
+        <div class="container-fluid">
+            <!-- Header dengan form pencarian dan tombol -->
+            <div class="card mb-4">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+                    <!-- Form Pencarian -->
+                    <form id="search-form" class="d-flex flex-wrap align-items-center">
+                        <div class="me-3">
+                            <label for="NM_UNOR" class="form-label">Pilih Unit Organisasi:</label>
+                            <select id="NM_UNOR" class="form-select">
+                                <option value="">-- Pilih Unit Organisasi --</option>
+                                @foreach ($unors as $unor)
+                                    <option value="{{ $unor->NM_UNOR }}" data-kd="{{ $unor->KD_UNOR }}">
+                                        {{ $unor->NM_UNOR }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 31px;">Cari</button>
+                    </form>
+
+                    <!-- Dropdown Menu -->
+                    <div class="btn-group">
+                        <button type="button" class="btn rotate-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <ul class="dropdown-menu text-center p-3">
+                            <!-- Ikon tambah -->
+                            <li class="mb-3">
+                                <button class="btn btn-outline-primary d-flex align-items-center mx-auto" data-id_jabatan="" data-toggle="" data-target="">
+                                    <i class="fa-solid fa-circle-plus me-2" data-id_jabatan="" data-toggle="modal" data-target="#createJabatanModal"></i> Tambah Jabatan
+                                </button>
+                            </li>
+                            <!-- Ikon akses -->
+                            <li>
+                                <button class="btn btn-outline-secondary d-flex align-items-center mx-auto" data-bs-toggle="modal" data-bs-target="#aksesTglModal">
+                                    <i class="fa-solid fa-universal-access me-2"></i> Pengaturan Akses
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
-        </form>
-      </div>
-      
-
-      <div class="table-wrapper mt-3">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Unit Organisasi</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($unors as $unor)
-              <tr>
-                <td>
-                  <a href="#" class="unor-link" data-kd_unor="{{ $unor->KD_UNOR }}">
-                    {{ $unor->NM_UNOR }}
-                  </a>
-                </td>
-              </tr>
+        @if(isset($users))
+            @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
+        @endif
 
-    <!-- Tempat untuk menampilkan detail analisis jabatan -->
-    <div id="analisis-jabatan-detail" class="mt-3" style="display: none;">
-      <!-- Detail analisis jabatan akan ditampilkan di sini -->
-    </div>
-  </div>
-</section>
+        <div class="modal fade" id="createJabatanModal" tabindex="-1" role="dialog" aria-labelledby="createJabatanModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Jabatan <i class="fa-solid fa-circle-plus"></i></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="accessForm" action="{{ route('manajemenuser.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" id="user_id_hidden">
 
-  
+
+                            <div id="loadingMessage" class="alert alert-info mt-3" style="display: none;">Loading...</div>
+                            <div id="successMessage" class="alert alert-success mt-3" style="display: none;">Akses Completed</div>
+                            <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+
+                            <!-- Pilihan User -->
+                            <div class="form-group">
+                                <label for="user_id">Pilih User</label>
+                                <select name="user_id" id="user_id" class="form-control" required>
+                                    <option value="">-- Pilih User --</option>
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <!-- Input Nama Jabatan -->
+                            <div class="form-group">
+                                <label for="nama_jabatan">Nama Jabatan</label>
+                                <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" required>
+                            </div>
+
+                            <!-- Input Unit Kerja -->
+                            <div class="form-group">
+                                <label for="unit_kerja">Unit Kerja</label>
+                                <input type="text" class="form-control" id="unit_kerja" name="unit_kerja" required>
+                            </div>
+
+                            <!-- Form Jenjang -->
+                            <div class="form-group" id="jenjangForm" style="display: none;">
+                                <label for="jenjang" class="form-label">Jenjang</label>
+                                <select name="jenjang" id="jenjang" class="form-select">
+                                    <option value="">Pilih Jenjang</option>
+                                    <option value="Mahir">Mahir</option>
+                                    <option value="Terampil">Terampil</option>
+                                    <option value="Pelaksana Lanjutan">Pelaksana Lanjutan</option>
+                                    <!-- Lainnya... -->
+                                </select>
+                            </div>
+                            <!-- Form Eselon -->
+                            <div class="form-group" id="eselonForm">
+                                <label for="eselon" class="form-label">Eselon</label>
+                                <select name="eselon" id="eselon" class="form-select">
+                                    <option value="">Pilih Eselon</option>
+                                    <option value="Eselon 1A">Eselon 1A</option>
+                                    <option value="Eselon 1B">Eselon 1B</option>
+                                    <!-- Lainnya... -->
+                                </select>
+                            </div>
+
+                            <!-- Status Jabatan -->
+                            <div class="mb-3">
+                                <label for="status_jabatan" class="form-label">Status Jabatan</label>
+                                <select name="status_jabatan" id="status_jabatan" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Status Jabatan</option>
+                                    <option value="aktif">Aktif</option>
+                                    <option value="nonaktif">Nonaktif</option>
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Simpan Jabatan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- Modal Pengaturan Akses -->
+            <div class="modal fade" id="aksesTglModal" tabindex="-1" role="dialog" aria-labelledby="aksesTglModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="aksesTglModalLabel">Pengaturan Akses <i class="fa-solid fa-universal-access"></i></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="accessForm" action="" method="POST">
+                                <input type="hidden" name="user_id" id="user_id">
+                                <div id="loadingMessage" class="alert alert-info mt-3" style="display: none;">Loading...</div>
+                                <div id="successMessage" class="alert alert-success mt-3" style="display: none;">Akses Completed</div>
+                                <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select name="role" id="role" class="form-select" required>
+                                        <option value="">Pilih Role</option>
+                                        <option value="Admin Skpd">Admin Skpd</option>
+                                        <option value="Admin Unor">Admin Unor</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="access_start_datetime">Akses Mulai</label>
+                                    <input type="datetime-local" class="form-control" id="access_start_datetime" name="access_start_datetime">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="access_end_datetime">Akses Berakhir</label>
+                                    <input type="datetime-local" class="form-control" id="access_end_datetime" name="access_end_datetime">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Analisis Jabatan -->
+            <div id="analisis-jabatan-detail">
+
+            </div>
+        </div>
+    </section>
+
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -420,136 +462,77 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<!-- Bootstrap JS (Harus setelah jQuery) -->
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
 <script>
-  $(document).ready(function() {
-      // Event handler untuk submit form pencarian
-      $('#search-form').on('submit', function(e) {
-          e.preventDefault(); // Mencegah pengiriman form default
-  
-          var query = $('#search-query').val().toLowerCase(); // Ambil nilai pencarian dan ubah ke huruf kecil
-          
-          // Filter baris tabel berdasarkan query
-          $('.table-wrapper tbody tr').each(function() {
-              var unitName = $(this).find('a').text().toLowerCase(); // Ambil nama unit organisasi dari setiap baris
-              if (unitName.includes(query)) {
-                  $(this).show(); // Tampilkan baris yang cocok
-              } else {
-                  $(this).hide(); // Sembunyikan baris yang tidak cocok
-              }
-          });
-      });
-  });
-  </script>
-  
-<script>
-$(document).on('click', '.unor-link', function(e) {
-    e.preventDefault();
-    var kdUnor = $(this).data('kd_unor');
-    $.ajax({
-        url: '/unor/' + kdUnor + '/jabatans',
-        method: 'GET',
-        success: function(data) {
-            // Preserve the title part
-            var contentHtml = `
-                <div class="container-fluid">
-                  <h3>${data.unor.NM_UNOR}</h3>
-            `;
+    $(document).ready(function () {
+        $('#search-form').on('submit', function (e) {
+            e.preventDefault();
 
-            if (data.unor && data.jabatans && data.jabatans.length > 0) {
-                // Prepare the rows for the table
-                var jabatanRows = data.jabatans.map(jabatan => {
-                    // Define background and text colors based on jenis_jabatan
-                    var jabatanBackgroundColor;
-                    var jabatanTextColor = 'white'; // Text color for all types
-                    switch (jabatan.jenis_jabatan) {
-                        case 'struktural':
-                            jabatanBackgroundColor = 'darkblue'; // Dark blue for structural
-                            break;
-                        case 'fungsional':
-                            jabatanBackgroundColor = 'darkgoldenrod'; // Dark goldenrod for functional
-                            break;
-                        case 'pelaksana':
-                            jabatanBackgroundColor = 'darkgreen'; // Dark green for executor
-                            break;
-                        default:
-                            jabatanBackgroundColor = 'gray'; // Default color if jenis_jabatan is unknown
-                            break;
+            var selectedOption = $('#NM_UNOR option:selected');
+            var kdUnor = selectedOption.data('kd');
+            var unitName = selectedOption.val();
+
+            if (kdUnor) {
+                $('#unit-header').val(unitName);
+
+                $.ajax({
+                    url: `/unor/${kdUnor}/jabatans`,
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.jabatans && data.jabatans.length > 0) {
+                            const hierarchyHtml = generateHierarchy(data.jabatans);
+                            $('#analisis-jabatan-detail').html(hierarchyHtml).show();
+                        } else {
+                            $('#analisis-jabatan-detail').html(
+                                `<div class="col-12 text-center">
+                                    <p class="alert alert-warning">Data jabatan tidak ditemukan. Silakan cek kembali atau hubungi Unit terkait.</p>
+                                </div>`).show();
+                        }
+                    },
+                    error: function () {
+                        $('#analisis-jabatan-detail').html('<div class="container-fluid"><p>Terjadi kesalahan saat memuat data. Silakan coba lagi nanti.</p></div>').show();
                     }
-
-                    // Define background color for status_jabatan
-                    var statusBackgroundColor;
-                    switch (jabatan.status_jabatan) {
-                        case 'aktif':
-                            statusBackgroundColor = 'green'; // Green for active
-                            break;
-                        case 'nonaktif':
-                            statusBackgroundColor = 'red'; // Red for inactive
-                            break;
-                        default:
-                            statusBackgroundColor = 'gray'; // Default color if status_jabatan is unknown
-                            break;
-                    }
-
-                    return `
-                        <tr>
-                          <td>
-                            <div class="btn-group">
-                              <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                  Download Data
-                              </button>
-                              <div class="dropdown-menu" style="margin-right: 50px;">
-                                  <a href="#" class="dropdown-item">Analisis Jabatan</a>
-                                  <a href="#" class="dropdown-item">Analisis Beban Kerja</a>
-                                  <a href="#" class="dropdown-item">Peta Jabatan</a>
-                              </div>
-                            </div>  
-                          </td>
-                          <td>${jabatan.eselon}</td>
-                          <td>${jabatan.kode_jabatan}</td>
-                          <td>${jabatan.nama_jabatan}<sup style="background-color: ${jabatanBackgroundColor}; color: ${jabatanTextColor}; padding: 2px 5px; border-radius: 3px;">${jabatan.jenis_jabatan}</sup></td>
-                          <td>${jabatan.unit_kerja}</td>
-                          <td><span style="background-color: ${statusBackgroundColor}; color: white; padding: 2px 5px; border-radius: 3px;">${jabatan.status_jabatan}</span></td>             
-                        </tr>
-                    `;
-                }).join('');
-
-                // Append the table HTML to contentHtml
-                contentHtml += `
-                    <table class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Aksi</th>
-                          <th>Eselon</th>
-                          <th>Kode Jabatan</th>
-                          <th>Nama Jabatan</th>
-                          <th>Unit Kerja</th>
-                          <th>Status Jabatan</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${jabatanRows}
-                      </tbody>
-                    </table>
-                `;
+                });
             } else {
-                // If no data is found, display a message
-                contentHtml += '<p>Data jabatan tidak ditemukan. Silakan cek kembali atau hubungi Unit terkait.</p>';
+                alert('Silakan pilih unit organisasi.');
             }
+        });
 
-            // Close the container-fluid div
-            contentHtml += '</div>';
+        // Fungsi untuk membangun hierarki dalam bentuk HTML
+        function generateHierarchy(jabatans) {
+            let html = '<ul class="tree">';
+            jabatans.forEach(jabatan => {
+                html += `<li>
+                    <span class="jabatan-card" style="background-color: ${getBackgroundColor(jabatan.jenis_jabatan)}">
+                        ${jabatan.nama_jabatan}
+                    </span>`;
+                if (jabatan.anak_jabatans && jabatan.anak_jabatans.length > 0) {
+                    html += generateHierarchy(jabatan.anak_jabatans);
+                }
+                html += '</li>';
+            });
+            html += '</ul>';
+            return html;
+        }
 
-            // Update the sidebar content
-            $('.sidebar-satu').html(contentHtml);
-        },
-        error: function() {
-            $('.sidebar-satu').html('<div class="container-fluid"><p>Terjadi kesalahan saat memuat data. Silakan coba lagi nanti.</p></div>');
+        // Fungsi untuk mendapatkan warna berdasarkan jenis jabatan
+        function getBackgroundColor(jenis) {
+            switch (jenis) {
+                case 'struktural': return 'darkblue';
+                case 'fungsional': return 'darkgoldenrod';
+                case 'pelaksana': return 'darkgreen';
+                default: return 'gray';
+            }
         }
     });
-});
-
 </script>
+
 
 <!-- jQuery -->
 <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>

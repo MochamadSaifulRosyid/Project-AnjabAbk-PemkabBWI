@@ -11,7 +11,7 @@
             background-color: #f8f9fa; /* Light background color for better contrast */
         }
         .form-container {
-            max-width: 600px;
+            max-width: 900px;
             margin: 50px auto;
             padding: 20px;
             background-color: #ffffff; /* White background for the form container */
@@ -64,8 +64,18 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="eselon" class="form-label">Eselon</label>
+                    <input type="text" id="eselon" class="form-control"
+                           value="{{ old('eselon', $jabatan->eselon) }}" readonly>
+                    @error('eselon')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
+                <div class="mb-3">
                     <label for="jenis_jabatan" class="form-label">Jenis Jabatan</label>
-                    <select name="jenis_jabatan" id="jenis_jabatan" class="form-select" required>
+                    <select name="jenis_jabatan" id="jenis_jabatan" class="form-select" required disabled>
                         <option value="struktural" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'struktural' ? 'selected' : '' }}>Struktural</option>
                         <option value="fungsional" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'fungsional' ? 'selected' : '' }}>Fungsional</option>
                         <option value="pelaksana" {{ old('jenis_jabatan', $jabatan->jenis_jabatan) == 'pelaksana' ? 'selected' : '' }}>Pelaksana</option>
@@ -74,6 +84,27 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
+            <div class="mb-3">
+                <label for="jenjang" class="form-label">Jenjang</label>
+                <select name="jenjang" id="jenjang" class="form-select" required>
+                    <option value="">Pilih Jenjang</option>
+                    <option value="Mahir" {{ old('jenjang', $jabatan->jenjang) == 'Mahir' ? 'selected' : '' }}>Mahir</option>
+                    <option value="Terampil" {{ old('jenjang', $jabatan->jenjang) == 'Terampil' ? 'selected' : '' }}>Terampil</option>
+                    <option value="Pelaksana Lanjutan" {{ old('jenjang', $jabatan->jenjang) == 'Pelaksana Lanjutan' ? 'selected' : '' }}>Pelaksana Lanjutan</option>
+                    <option value="Pelaksana" {{ old('jenjang', $jabatan->jenjang) == 'Pelaksana' ? 'selected' : '' }}>Pelaksana</option>
+                    <option value="Pelaksana Pemula" {{ old('jenjang', $jabatan->jenjang) == 'Pelaksana Pemula' ? 'selected' : '' }}>Pelaksana Pemula</option>
+                    <option value="Ahli Pertama" {{ old('jenjang', $jabatan->jenjang) == 'Ahli Pertama' ? 'selected' : '' }}>Ahli Pertama</option>
+                    <option value="Ahli Muda" {{ old('jenjang', $jabatan->jenjang) == 'Ahli Muda' ? 'selected' : '' }}>Ahli Muda</option>
+                    <option value="Ahli Madya" {{ old('jenjang', $jabatan->jenjang) == 'Ahli Madya' ? 'selected' : '' }}>Ahli Madya</option>
+                    <option value="Ahli Utama" {{ old('jenjang', $jabatan->jenjang) == 'Ahli Utama' ? 'selected' : '' }}>Ahli Utama</option>
+                    <option value="Tidak Ada" {{ old('jenjang', $jabatan->jenjang) == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
+                </select>
+                @error('jenjang')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
 
                 <div class="mb-3">
                     <label for="nama_jabatan" class="form-label">Nama Jabatan</label>
@@ -87,30 +118,6 @@
                     <label for="unit_kerja" class="form-label">Unit Kerja</label>
                     <input type="text" name="unit_kerja" id="unit_kerja" class="form-control" value="{{ old('unit_kerja', $jabatan->unit_kerja) }}" required>
                     @error('unit_kerja')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Form untuk Eselon -->
-                <div class="mb-3">
-                    <label for="eselon" class="form-label">Eselon</label>
-                    <select name="eselon" id="eselon" class="form-select" required>
-                        <option value="" disabled>Pilih Eselon</option>
-                        <option value="Eselon 1A / Jabatan Pimpinan Tinggi Utama" {{ old('eselon', $jabatan->eselon) == 'Eselon 1A / Jabatan Pimpinan Tinggi Utama' ? 'selected' : '' }}>Eselon 1A / Jabatan Pimpinan Tinggi Utama</option>
-                        <option value="Eselon 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon', $jabatan->eselon) == 'Eselon 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1B / Jabatan Pimpinan Tinggi Madya</option>
-                        <option value="Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon', $jabatan->eselon) == 'Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya</option>
-                        <option value="Eselon 2A / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon', $jabatan->eselon) == 'Eselon 2A / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2A / Jabatan Pimpinan Tinggi Pratama</option>
-                        <option value="Eselon 2B / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon', $jabatan->eselon) == 'Eselon 2B / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2B / Jabatan Pimpinan Tinggi Pratama</option>
-                        <option value="Eselon 3A / Jabatan Administrator" {{ old('eselon', $jabatan->eselon) == 'Eselon 3A / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3A / Jabatan Administrator</option>
-                        <option value="Eselon 3B / Jabatan Administrator" {{ old('eselon', $jabatan->eselon) == 'Eselon 3B / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3B / Jabatan Administrator</option>
-                        <option value="Eselon 4A / Jabatan Pengawas" {{ old('eselon', $jabatan->eselon) == 'Eselon 4A / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas</option>
-                        <option value="Eselon 4B / Jabatan Pengawas" {{ old('eselon', $jabatan->eselon) == 'Eselon 4B / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4B / Jabatan Pengawas</option>
-                        <option value="Jabatan Pelaksana" {{ old('eselon', $jabatan->eselon) == 'Jabatan Pelaksana' ? 'selected' : '' }}>Jabatan Pelaksana</option>
-                        <option value="Eselon 4A / Jabatan Pengawas (F)" {{ old('eselon', $jabatan->eselon) == 'Eselon 4A / Jabatan Pengawas (F)' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas (F)</option>
-                        <option value="Kelompok" {{ old('eselon', $jabatan->eselon) == 'Kelompok' ? 'selected' : '' }}>Kelompok</option>
-                        <option value="Sub Kelompok" {{ old('eselon', $jabatan->eselon) == 'Sub Kelompok' ? 'selected' : '' }}>Sub Kelompok</option>
-                    </select>
-                    @error('eselon')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>

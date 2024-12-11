@@ -27,32 +27,47 @@ class AuthController extends Controller
     {
         // Validasi input
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'login' => 'required|string',
+            'password' => 'required|string|min:8',
         ]);
 
-        // Coba autentikasi user berdasarkan kredensial
-        $credentials = $request->only('email', 'password');
+        // Cek apakah input adalah email atau username
+        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (Auth::attempt($credentials)) {
-            // Jika berhasil, redirect ke halaman dashboard
-            return redirect()->route('dashboard');
+        // Melakukan autentikasi
+        if (Auth::attempt([$field => $request->login, 'password' => $request->password])) {
+            // Autentikasi berhasil, ambil user yang sedang login
+            $user = Auth::user();
+
+            // Update waktu login di kolom access_start_datetime
+            $user->update([
+                'access_start_datetime' => now(),
+            ]);
+
+            // Redirect ke halaman dashboard setelah login
+            return redirect()->intended('dashboard');
         }
 
-        // Jika gagal, kembalikan ke halaman login dengan pesan error
+        // Jika gagal, kembali dengan error
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->withInput($request->except('password'));
+            'login' => 'Email atau username dan password tidak cocok.',
+        ])->withInput($request->only('login'));
     }
 
-    /**
-     * Logout user
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
-    }
+
+public function logout(Request $request)
+{
+    $user = Auth::user(); // Ambil user yang sedang login
+
+    // Update waktu logout sebelum logout
+    $user->update([
+        'access_end_datetime' => now(),  // Menyimpan waktu logout
+    ]);
+
+    // Proses logout
+    Auth::logout();
+
+    // Redirect ke halaman setelah logout
+    return redirect()->route('login');
+}
 }

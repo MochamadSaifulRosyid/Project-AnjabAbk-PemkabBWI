@@ -14,12 +14,15 @@ class User extends Authenticatable
         'KD_UNOR',
         'email',
         'password',
-        'username', 
-        'NM_UNOR', 
+        'username',
+        'NM_UNOR',
         'role',
-        'access_status', // Menambahkan access_status
-        'access'
+        'access_status',
+        'access',
+        'access_start_datetime',  // Tambahkan ini
+        'access_end_datetime',    // Tambahkan ini
     ];
+
 
     protected $hidden = [
         'password',
@@ -27,11 +30,11 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'access_status' => 'boolean', // Mengatur akses_status sebagai boolean
+        'access_status' => 'boolean', // Mengatur access_status sebagai boolean
         'email_verified_at' => 'datetime',
-        'access' => 'array',
+        'access_start_datetime' => 'datetime', // Mengatur akses mulai sebagai datetime
+        'access_end_datetime' => 'datetime', // Mengatur akses berakhir sebagai datetime
     ];
-    
 
     public function unor()
     {

@@ -9,6 +9,12 @@
     <!-- Link to custom CSS (optional) -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
+        .container {
+                    padding: 20px;
+                    border-radius: 10px;
+                    background-color: #343a40;
+                    border: none;
+                }
         .page-title {
             color: #343a40;
             font-size: 2rem;
@@ -45,7 +51,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="page-title">Detail Syarat Jabatan</h1>
+        <h1 class="page-title" style="color: white">Detail Syarat Jabatan</h1>
 
         <div class="card">
             <div class="card-header">
@@ -195,7 +201,7 @@
                             <ul class="list-unstyled">
                                 @if(is_array($hubunganJabatanData) && !empty($hubunganJabatanData))
                                     @foreach($hubunganJabatanData as $index => $item)
-                                        <li>{{ $index + 1 }}. {{ $item }}</li>
+                                        <li>{{ $item }}</li>
                                     @endforeach
                                 @else
                                     <li>Tidak ada data</li>
@@ -214,7 +220,7 @@
                             <ul class="list-unstyled">
                                 @if(is_array($hubunganJabatanOrang) && !empty($hubunganJabatanOrang))
                                     @foreach($hubunganJabatanOrang as $index => $item)
-                                        <li>{{ $index + 1 }}. {{ $item }}</li>
+                                        <li>{{ $item }}</li>
                                     @endforeach
                                 @else
                                     <li>Tidak ada data</li>
@@ -233,7 +239,7 @@
                             <ul class="list-unstyled">
                                 @if(is_array($hubunganJabatanBenda) && !empty($hubunganJabatanBenda))
                                     @foreach($hubunganJabatanBenda as $index => $item)
-                                        <li>{{ $index + 1 }}. {{ $item }}</li>
+                                        <li>{{ $item }}</li>
                                     @endforeach
                                 @else
                                     <li>Tidak ada data</li>
@@ -242,7 +248,7 @@
                         </div>
                     </div>
 
-                    
+
                     <!-- Jenjang Minimal -->
                     <div class="row mb-3">
                         <label for="jenjangMinimal" class="col-sm-4 col-form-label form-label">Jenjang Minimal</label>

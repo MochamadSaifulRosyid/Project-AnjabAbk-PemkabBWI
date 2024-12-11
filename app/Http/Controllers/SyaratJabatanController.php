@@ -15,7 +15,7 @@ class SyaratJabatanController extends Controller
         $userId = Auth::id();
         $jabatans = Jabatan::where('user_id', $userId)->get();
         $syaratJabatan = SyaratJabatan::whereIn('id_jabatan', $jabatans->pluck('id_jabatan'))->with('jabatan')->get();
-        
+
         return view('Admin_Unor.ANJAB.syaratjabatan.index', compact('jabatans', 'syaratJabatan'));
     }
 
@@ -27,8 +27,10 @@ class SyaratJabatanController extends Controller
                            ->whereNotIn('id_jabatan', SyaratJabatan::pluck('id_jabatan'))
                            ->get();
 
-        return view('Admin_Unor.ANJAB.syaratjabatan.create', compact('jabatans'));
+        // Pastikan variabel 'jabatans' sudah dikirim ke view
+        return view('Admin_Unor.ANJAB.syaratjabatan.index', compact('jabatans'));
     }
+
 
     public function store(Request $request)
     {
@@ -97,7 +99,7 @@ class SyaratJabatanController extends Controller
             'penampilan' => $validated['penampilan'],
         ]);
 
-        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan created successfully.');
+        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan Berhasil Ditambahkan.');
     }
 
     public function show(SyaratJabatan $syaratjabatan)
@@ -165,12 +167,12 @@ class SyaratJabatanController extends Controller
             'penampilan' => $validated['penampilan'],
         ]);
 
-        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan updated successfully.');
+        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan Berhasil Di Update.');
     }
 
     public function destroy(SyaratJabatan $syaratjabatan)
     {
         $syaratjabatan->delete();
-        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan deleted successfully.');
+        return redirect()->route('syaratjabatan.index')->with('success', 'Syarat Jabatan Berhasil Dihapus.');
     }
 }

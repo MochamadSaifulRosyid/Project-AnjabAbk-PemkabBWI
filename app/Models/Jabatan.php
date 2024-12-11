@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Jabatan extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_jabatan'; 
+
+    protected $primaryKey = 'id_jabatan';
     protected $table = 'jabatan';
 
     protected $fillable = [
@@ -18,7 +19,9 @@ class Jabatan extends Model
         'eselon',
         'status_jabatan',
         'kode_jabatan',
-        'user_id', // Tambahkan user_id
+        'user_id',
+        'dibawah_jabatan', // Menambahkan kolom dibawah_jabatan ke fillable
+        'jenjang',
     ];
 
     // Relasi ke User
@@ -26,8 +29,44 @@ class Jabatan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relasi ke Analisis Jabatan
     public function analisisJabatan()
     {
         return $this->hasMany(AnalisisJabatan::class, 'id_jabatan', 'id_jabatan');
     }
+
+    // Relasi untuk sub jabatan
+    public function subJabatan()
+    {
+        return $this->hasMany(Jabatan::class, 'dibawah_jabatan', 'id_jabatan');
+    }
+
+    public function jabatanDiAtas()
+    {
+        return $this->belongsTo(Jabatan::class, 'dibawah_jabatan', 'id_jabatan');
+    }
+
+
+    public function atasan()
+    {
+        return $this->belongsTo(Jabatan::class, 'dibawah_jabatan');
+    }
+
+    public function anakJabatans()
+    {
+        return $this->hasMany(Jabatan::class, 'dibawah_jabatan');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Jabatan::class, 'dibawah_jabatan');
+    }
+
+    public function dibawahJabatan()
+    {
+        return $this->hasMany(Jabatan::class, 'dibawah_jabatan');
+    }
+
+
 }

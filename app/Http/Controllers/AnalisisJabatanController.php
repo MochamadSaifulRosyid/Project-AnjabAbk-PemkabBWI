@@ -18,7 +18,7 @@ class AnalisisJabatanController extends Controller
                 $query->where('user_id', $userId);
             })
             ->get();
-        
+
         return view('Admin_Unor.ANJAB.analisisjabatan.index', compact('jabatans', 'analisisJabatan'));
     }
 
@@ -27,8 +27,8 @@ class AnalisisJabatanController extends Controller
         $jabatans = Jabatan::where('user_id', Auth::id())
             ->whereNotIn('id_jabatan', AnalisisJabatan::pluck('id_jabatan'))
             ->get();
-        
-        return view('Admin_Unor.ANJAB.analisisjabatan.create', compact('jabatans'));
+
+        return view('Admin_Unor.ANJAB.analisisjabatan.index', compact('jabatans'));
     }
 
     public function store(Request $request)
@@ -95,7 +95,7 @@ class AnalisisJabatanController extends Controller
 
         AnalisisJabatan::create($validatedData);
 
-        return redirect()->route('analisisjabatan.index')->with('success', 'Data berhasil disimpan.');
+        return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan Berhasil Ditambahkan.');
     }
 
     public function show(AnalisisJabatan $analisisjabatan)
@@ -108,7 +108,7 @@ class AnalisisJabatanController extends Controller
         $jabatans = Jabatan::where('user_id', Auth::id())
             ->whereNotIn('id_jabatan', AnalisisJabatan::where('id_anjab', '<>', $analisisjabatan->id_anjab)->pluck('id_jabatan'))
             ->get();
-        
+
         return view('Admin_Unor.ANJAB.analisisjabatan.edit', compact('analisisjabatan', 'jabatans'));
     }
 
@@ -149,14 +149,14 @@ class AnalisisJabatanController extends Controller
         // Update the model
         $analisisjabatan->update($validated);
 
-        return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan updated successfully.');
+        return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan Berhasil DI Update.');
     }
 
     public function destroy(AnalisisJabatan $analisisjabatan)
     {
         if ($analisisjabatan->jabatan->user_id == Auth::id()) {
             $analisisjabatan->delete();
-            return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan deleted successfully.');
+            return redirect()->route('analisisjabatan.index')->with('success', 'Analisis Jabatan Berhasil Dihapus.');
         }
 
         return redirect()->route('analisisjabatan.index')->with('error', 'Unauthorized action.');

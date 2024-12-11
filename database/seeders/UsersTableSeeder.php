@@ -25,9 +25,9 @@ class UsersTableSeeder extends Seeder
             'role' => 'Super Admin',
             'NM_UNOR' => 'Pemerintah Kabupaten Banyuwangi',
             'access' => json_encode([
-                'analisis_jabatan' => 1,
-                'analisis_beban_kerja' => 1,
-                'laporan' => 1,
+                'analisis_jabatan' => true,
+                'analisis_beban_kerja' => true,
+                'laporan' => true,
             ]),
         ]);
 
@@ -41,9 +41,9 @@ class UsersTableSeeder extends Seeder
             'role' => 'Admin Skpd',
             'NM_UNOR' => 'Sekretariat Daerah',
             'access' => json_encode([
-                'analisis_jabatan' => 1,
-                'analisis_beban_kerja' => 1,
-                'laporan' => 1,
+                'analisis_jabatan' => true,
+                'analisis_beban_kerja' => true,
+                'laporan' => true,
             ]),
         ]);
     }

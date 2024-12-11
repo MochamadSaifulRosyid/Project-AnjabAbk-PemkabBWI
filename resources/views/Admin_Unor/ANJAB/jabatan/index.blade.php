@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ANJAB-ABK | Dashboard</title>
+  <title>ANJAB-ABK | Jabatan</title>
 
-  <!-- Link to stylesheets -->
+  <!-- Fonts and Styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -17,127 +17,169 @@
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/daterangepicker/daterangepicker.css') }}">
   <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <style>
-   .content {
-    padding: 20px;
-    background-color: #f8f9fa;
-}
+    body {
+        background-color: #f8f9fa;
+    }
 
-/* Styling untuk alert pesan sukses */
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border-color: #c3e6cb;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-/* Styling untuk tombol tambah data */
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    color: #fff;
+    .jabatan {
+        margin-left: 20px;
+    }
+    .details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .details div {
+        margin-right: 5px; /* Jarak antar deskripsi */
+    }
+    a {
     text-decoration: none;
-    font-size: 16px;
+    }
+.table thead {
+    background-color: #343a40; /* Background gelap untuk header tabel */
+    color: #ffffff; /* Warna teks putih untuk header */
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
+.table th, .table td {
+    vertical-align: middle; /* Menyelaraskan teks secara vertikal di dalam sel tabel */
 }
-
-/* Styling untuk container tabel */
-.container {
-    margin-top: 20px;
-}
-
-/* Styling untuk list jabatan */
-.jabatan-list {
-    list-style: none;
-    padding: 0;
-}
-
-.jabatan-item {
-    margin-bottom: 20px;
-}
-
-/* Styling untuk tabel jabatan */
 .table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
+    width: 100%; /* Membuat tabel mengisi lebar kontainer */
+    margin-bottom: 1.5rem; /* Memberikan ruang di bawah tabel */
+    border-collapse: collapse; /* Menghilangkan spasi antara border */
 }
 
-.table-bordered {
-    border: 1px solid #dee2e6;
+/* Styling untuk header tabel */
+.table thead {
+    background: linear-gradient(135deg, #0066cc, #004c99); /* Gradasi biru dari terang ke gelap */
+    color: white; /* Warna teks header putih */
+    text-transform: uppercase; /* Membuat semua teks header menjadi kapital */
+    font-size: 1.1rem; /* Ukuran font header sedikit lebih besar */
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
+.table th {
+    padding: 14px 18px; /* Menambahkan padding untuk header */
+    text-align: center; /* Menyelaraskan teks ke tengah */
+    font-weight: bold; /* Membuat teks tebal */
+    border-right: 2px solid rgba(255, 255, 255, 0.1); /* Menambahkan garis tipis di sebelah kanan header */
 }
 
-.table-bordered td, .table-bordered th {
-    border: 1px solid #dee2e6;
-    padding: 10px;
+.table th:last-child {
+    border-right: none; /* Menghapus garis pada kolom terakhir */
 }
 
-/* Styling untuk dropdown button */
-.btn-group {
-    position: relative;
+/* Styling untuk baris tabel */
+.table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa; /* Latar belakang terang untuk baris ganjil */
 }
 
-.dropdown-toggle::after {
-    display: none;
+.table tbody tr:nth-child(even) {
+    background-color: #ffffff; /* Latar belakang putih untuk baris genap */
 }
 
-.dropdown-menu {
-    min-width: 150px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+.table td {
+    padding: 12px 15px; /* Menambahkan padding untuk sel tabel */
+    text-align: center; /* Menyelarakan teks ke tengah */
+    vertical-align: middle; /* Menyelaraskan teks vertikal */
+}
+.list-group-item {
+        border: none;
+        border-radius: 0.5rem;
+        background-color: #ffffff;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+    }
+    .list-group-item:hover {
+        background-color: #e9ecef;
+    }
+
+.rotate-icon i {
+    transition: transform 0.3s ease;
 }
 
-.dropdown-item {
-    padding: 10px 15px;
-    color: #212529;
-    text-decoration: none;
+.rotate-icon[aria-expanded="true"] i {
+    transform: rotate(90deg);
 }
+   /* Default style untuk elemen jenjang */
+   #fungsional {
+       display: inline-block;
+       padding: 2px 5px;
+       border-radius: 5px;
+       margin-left: 5px;
+       font-size: 12px;
+       line-height: 1;
+       font-weight: bold;
+       color: white;
+       position: relative;
+       top: -5px;
+   }
 
-.dropdown-item:hover {
-    background-color: #f1f1f1;
-}
+   /* Warna berdasarkan tingkatan */
+   .fungsional-tidak-ada {
+       background-color: #d3d3d3; /* Abu-abu (rendah) */
+   }
 
-/* Styling untuk posisi tombol detail */
-.table td:last-child {
-    text-align: right;
-}
+   .fungsional-pelaksana-pemula {
+       background-color: #b0c4de; /* Biru muda */
+   }
 
-/* Styling untuk elemen jabatan */
-.jabatan {
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.disabled {
-    pointer-events: none;
-    color: #6c757d; /* Warna abu-abu atau sesuai tema */
-    cursor: not-allowed;
-}
+   .fungsional-pelaksana {
+       background-color: #87cefa; /* Biru langit */
+   }
+
+   .fungsional-pelaksana-lanjutan {
+       background-color: #00bfff; /* Biru */
+   }
+
+   .fungsional-terampil {
+       background-color: #32cd32; /* Hijau terang */
+   }
+
+   .fungsional-mahir {
+       background-color: #228b22; /* Hijau tua */
+   }
+
+   .fungsional-ahli-pertama {
+       background-color: #ffd700; /* Kuning emas */
+   }
+
+   .fungsional-ahli-muda {
+       background-color: #ffa500; /* Oranye */
+   }
+
+   .fungsional-ahli-madya {
+       background-color: #ff4500; /* Oranye kemerahan */
+   }
+
+   .fungsional-ahli-utama {
+       background-color: #8b0000; /* Merah tua (tinggi) */
+   }
+
+
+
+
 </style>
-
-
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+  @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars ml-3"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
       <a href="#" class="nav-link" style="color: black;">Pemerintah Daerah Kabupaten Banyuwangi</a>
@@ -147,7 +189,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-user"></i>
+          <i class="far fa-user mr-3"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -158,18 +200,8 @@
     @csrf
 </form>
 
-<a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+<a class="m-3" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
       </li>
     </ul>
   </nav>
@@ -195,19 +227,8 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Sidebar Menu -->
+
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @if(Auth::check())
@@ -254,11 +275,11 @@
                         <!-- Menu untuk Admin Skpd -->
                         @if(isset($access['analisis_jabatan']) && $access['analisis_jabatan'])
                         <li class="nav-item">
-                            <a href="/dashboard" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
+                          <a href="/dashboard" class="nav-link">
+                              <i class="nav-icon fas fa-table"></i>
+                              <p>Dashboard</p>
+                          </a>
+                      </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-edit" style="color: #c2c2c2; margin-left: 2px; margin-right: 5px"></i>
@@ -321,18 +342,6 @@
                                             <p>Peta Jabatan</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilanjab" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Anjab</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/hasilabk" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Hasil Abk</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                         @endif
@@ -347,9 +356,8 @@
                     </li>
                 @endif
             @endif
-        </ul>
+        </ul>
     </nav>
-    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -362,12 +370,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Data Jabatan</h1>
+            <h1 class="m-0"><i class="fa-solid fa-map-pin me-2"></i>Data Jabatan</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Data Jabatan</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -377,429 +383,233 @@
 
     <!-- Main content -->
     <section class="content">
-      @if(session('success'))
-        <div class="alert alert-success mb-3">
-            {{ session('success') }}
-        </div>
+
+        <!-- Button untuk menampilkan modal, hanya muncul jika tidak ada jabatan yang terkait dengan user -->
+        @if($jabatans->isEmpty())
+        <button type="button" class="btn btn-primary mt-3 mb-3" style="margin-left: 12px" data-toggle="modal" data-target="#createJabatanModal">
+                                        <i class="fa-solid fa-circle-plus"></i>
+                                    </button>
         @endif
 
-        <!-- Add new jabatan button -->
-        <a href="{{ route('jabatan.create') }}" class="btn btn-primary mb-3" style="margin-left: 10px;">Tambah Data</a>
-      <div class="container">
-        <ul class="jabatan-list">
-          <li class="jabatan-item">
-            <div class="jabatan">Eselon 1A / Jabatan Pimpinan Tinggi Utama
-                <table class="table table-striped table-bordered">
-                    <tbody>
-                        @foreach($jabatans as $jabatan)
-                            @if($jabatan->eselon === 'Eselon 1A / Jabatan Pimpinan Tinggi Utama')
-                                <tr>
-                                    <td>{{ $jabatan->kode_jabatan }}</td>
-                                    <td>{{ $jabatan->jenis_jabatan }}</td>
-                                    <td>{{ $jabatan->nama_jabatan }}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                Detail
-                                            </button>
-                                            <div class="dropdown-menu" style="margin-right: 50px;">
-                                                <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                </form>
+
+
+
+        <!-- Modal Form -->
+        <div class="modal fade" id="createJabatanModal" tabindex="-1" role="dialog" aria-labelledby="createJabatanModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createJabatanModalLabel">Tambah Jabatan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('jabatan.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <!-- Input jenis jabatan -->
+                                                        <div class="form-group">
+                                                                                <label for="jenis_jabatan" class="form-label">Jenis Jabatan</label>
+                                                                                <select name="jenis_jabatan" id="jenis_jabatan" class="form-select" required>
+                                                                                    <option value="" disabled selected>Pilih Jenis Jabatan</option>
+                                                                                    <option value="struktural" {{ old('jenis_jabatan') == 'struktural' ? 'selected' : '' }}>Struktural</option>
+                                                                                    <option value="fungsional" {{ old('jenis_jabatan') == 'fungsional' ? 'selected' : '' }}>Fungsional</option>
+                                                                                    <option value="pelaksana" {{ old('jenis_jabatan') == 'pelaksana' ? 'selected' : '' }}>Pelaksana</option>
+                                                                                </select>
+                                                                                @error('jenis_jabatan')
+                                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                                @enderror
+                                                                            </div>
+                            <!-- Dropdown untuk memilih jabatan yang ada di bawah jabatan lain -->
+                                                        <div class="form-group">
+                                                            <label for="dibawah_jabatan">Dibawah Jabatan</label>
+                                                            <select name="dibawah_jabatan" id="dibawah_jabatan" class="form-control" Readonly>
+                                                                <option value="">Pilih Jabatan</option>
+                                                                @foreach($parentJabatans as $parentJabatan)
+                                                                    <option value="{{ $parentJabatan->id_jabatan }}">
+                                                                        {{ $parentJabatan->nama_jabatan }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+
+
+                            <!-- Input nama jabatan -->
+                            <div class="form-group">
+                                <label for="nama_jabatan">Nama Jabatan</label>
+                                <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" required>
+                            </div>
+
+                            <!-- Input unit kerja -->
+                            <div class="form-group">
+                                <label for="unit_kerja">Unit Kerja</label>
+                                <input type="text" class="form-control" id="unit_kerja" name="unit_kerja" required>
+                            </div>
+
+                            <!-- Form untuk Jenjang -->
+                                                <div class="form-group" id="jenjangForm" style="display: none;">
+                                                    <label for="jenjang" class="form-label">Jenjang</label>
+                                                    <select name="jenjang" id="jenjang" class="form-select">
+                                                        <option value="">Pilih Jenjang</option>
+                                                        <option value="Mahir" {{ old('jenjang') == 'Mahir' ? 'selected' : '' }}>Mahir</option>
+                                                        <option value="Terampil" {{ old('jenjang') == 'Terampil' ? 'selected' : '' }}>Terampil</option>
+                                                        <option value="Pelaksana Lanjutan" {{ old('jenjang') == 'Pelaksana Lanjutan' ? 'selected' : '' }}>Pelaksana Lanjutan</option>
+                                                        <option value="Pelaksana" {{ old('jenjang') == 'Pelaksana' ? 'selected' : '' }}>Pelaksana</option>
+                                                        <option value="Pelaksana Pemula" {{ old('jenjang') == 'Pelaksana Pemula' ? 'selected' : '' }}>Pelaksana Pemula</option>
+                                                        <option value="Ahli Pertama" {{ old('jenjang') == 'Ahli Pertama' ? 'selected' : '' }}>Ahli Pertama</option>
+                                                        <option value="Ahli Muda" {{ old('jenjang') == 'Ahli Muda' ? 'selected' : '' }}>Ahli Muda</option>
+                                                        <option value="Ahli Madya" {{ old('jenjang') == 'Ahli Madya' ? 'selected' : '' }}>Ahli Madya</option>
+                                                        <option value="Ahli Utama" {{ old('jenjang') == 'Ahli Utama' ? 'selected' : '' }}>Ahli Utama</option>
+                                                        <option value="Tidak Ada" {{ old('jenjang') == 'Tidak Ada' ? 'selected' : '' }}>Tidak Ada</option>
+                                                    </select>
+                                                    @error('jenjang')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                            <!-- Form untuk Eselon -->
+                                                <div class="form-group" id="eselonForm">
+                                                    <label for="eselon" class="form-label">Eselon</label>
+                                                    <select name="eselon" id="eselon" class="form-select">
+                                                        <option value="">Pilih Eselon</option>
+                                                        <option value="Eselon 1A / Jabatan Pimpinan Tinggi Utama" {{ old('eselon') == 'Eselon 1A / Jabatan Pimpinan Tinggi Utama' ? 'selected' : '' }}>Eselon 1A / Jabatan Pimpinan Tinggi Utama</option>
+                                                        <option value="Eselon 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon') == 'Eselon 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1B / Jabatan Pimpinan Tinggi Madya</option>
+                                                        <option value="Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya" {{ old('eselon') == 'Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya' ? 'selected' : '' }}>Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya</option>
+                                                        <option value="Eselon 2A / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon') == 'Eselon 2A / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2A / Jabatan Pimpinan Tinggi Pratama</option>
+                                                        <option value="Eselon 2B / Jabatan Pimpinan Tinggi Pratama" {{ old('eselon') == 'Eselon 2B / Jabatan Pimpinan Tinggi Pratama' ? 'selected' : '' }}>Eselon 2B / Jabatan Pimpinan Tinggi Pratama</option>
+                                                        <option value="Eselon 3A / Jabatan Administrator" {{ old('eselon') == 'Eselon 3A / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3A / Jabatan Administrator</option>
+                                                        <option value="Eselon 3B / Jabatan Administrator" {{ old('eselon') == 'Eselon 3B / Jabatan Administrator' ? 'selected' : '' }}>Eselon 3B / Jabatan Administrator</option>
+                                                        <option value="Eselon 4A / Jabatan Pengawas" {{ old('eselon') == 'Eselon 4A / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas</option>
+                                                        <option value="Eselon 4B / Jabatan Pengawas" {{ old('eselon') == 'Eselon 4B / Jabatan Pengawas' ? 'selected' : '' }}>Eselon 4B / Jabatan Pengawas</option>
+                                                        <option value="Jabatan Pelaksana" {{ old('eselon') == 'Jabatan Pelaksana' ? 'selected' : '' }}>Jabatan Pelaksana</option>
+                                                        <option value="Eselon 4A / Jabatan Pengawas (F)" {{ old('eselon') == 'Eselon 4A / Jabatan Pengawas (F)' ? 'selected' : '' }}>Eselon 4A / Jabatan Pengawas (F)</option>
+                                                        <option value="Kelompok" {{ old('eselon') == 'Kelompok' ? 'selected' : '' }}>Kelompok</option>
+                                                        <option value="Sub Kelompok" {{ old('eselon') == 'Sub Kelompok' ? 'selected' : '' }}>Sub Kelompok</option>
+                                                    </select>
+                                                    @error('eselon')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <!-- Form untuk Status Jabatan -->
+                                                <div class="mb-3">
+                                                    <label for="status_jabatan" class="form-label">Status Jabatan</label>
+                                                    <select name="status_jabatan" id="status_jabatan" class="form-select" required>
+                                                        <option value="" disabled selected>Pilih Status Jabatan</option>
+                                                        <option value="aktif" {{ old('status_jabatan') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                                        <option value="nonaktif" {{ old('status_jabatan') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                                    </select>
+                                                    @error('status_jabatan')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Simpan Jabatan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 12px;">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nama Jabatan</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="list-group">
+                            @foreach($jabatans as $jabatan)
+                                @if(is_null($jabatan->dibawah_jabatan))
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>
+                                                    {{ $jabatan->nama_jabatan }}
+                                                    <sup id="fungsional"
+                                                         class="fungsional-{{ strtolower(str_replace(' ', '-', $jabatan->jenjang)) }}">
+                                                        {{ $jabatan->jenjang }}
+                                                    </sup>
+                                                </strong>
+
+                                            </div>
+                                            <div class="btn-group ms-auto">
+                                                <button type="button" class="btn rotate-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-chevron-right"></i>
+                                                </button>
+                                                <ul class="dropdown-menu text-center">
+                                                    <i class="fa-solid fa-circle-plus" data-id_jabatan="{{ $jabatan->id_jabatan }}" data-toggle="modal" data-target="#createJabatanModal"></i>
+                                                    <li><a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Detail Data</a></li>
+                                                    <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                                                    </form>
+                                                </ul>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-                <ul>
-                  <li class="jabatan-item">
-                    <div class="jabatan">Eselon 1B / Jabatan Pimpinan Tinggi Madya
-                        <table class="table table-striped table-bordered">
-                            <tbody>
-                                @foreach($jabatans as $jabatan)
-                                    @if($jabatan->eselon === 'Eselon 1B / Jabatan Pimpinan Tinggi Madya')
-                                        <tr>
-                                            <td>{{ $jabatan->kode_jabatan }}</td>
-                                            <td>{{ $jabatan->jenis_jabatan }}</td>
-                                            <td>{{ $jabatan->nama_jabatan }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                        Detail
-                                                    </button>
-                                                    <div class="dropdown-menu" style="margin-right: 50px;">
-                                                        <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                        <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                <ul>
-                  <li class="jabatan-item">
-                    <div class="jabatan">Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya
-                        <table class="table table-striped table-bordered">
-                            <tbody>
-                                @foreach($jabatans as $jabatan)
-                                    @if($jabatan->eselon === '1A' || $jabatan->eselon === 'Eselon 1A - 1B / Jabatan Pimpinan Tinggi Madya')
-                                        <tr>
-                                            <td>{{ $jabatan->kode_jabatan }}</td>
-                                            <td>{{ $jabatan->jenis_jabatan }}</td>
-                                            <td>{{ $jabatan->nama_jabatan }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                        Detail
-                                                    </button>
-                                                    <div class="dropdown-menu" style="margin-right: 50px;">
-                                                        <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                        <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                      <ul>
-                        <li class="jabatan-item">
-                          <div class="jabatan">Eselon 2A / Jabatan Pimpinan Tinggi Pratama
-                              <table class="table table-striped table-bordered">
-                                  <tbody>
-                                      @foreach($jabatans as $jabatan)
-                                          @if($jabatan->eselon === 'Eselon 2A / Jabatan Pimpinan Tinggi Pratama')
-                                              <tr>
-                                                  <td>{{ $jabatan->kode_jabatan }}</td>
-                                                  <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                  <td>{{ $jabatan->nama_jabatan }}</td>
-                                                  <td>
-                                                      <div class="btn-group">
-                                                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                              Detail
-                                                          </button>
-                                                          <div class="dropdown-menu" style="margin-right: 50px;">
-                                                              <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                              <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                  @csrf
-                                                                  @method('DELETE')
-                                                                  <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                              </form>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                          @endif
-                                      @endforeach
-                                  </tbody>
-                              </table>
-                          </div>
-                            <ul>
-                              <li class="jabatan-item">
-                                <div class="jabatan">Eselon 2B / Jabatan Pimpinan Tinggi Pratama
-                                    <table class="table table-striped table-bordered">
-                                        <tbody>
-                                            @foreach($jabatans as $jabatan)
-                                                @if($jabatan->eselon === 'Eselon 2B / Jabatan Pimpinan Tinggi Pratama')
-                                                    <tr>
-                                                        <td>{{ $jabatan->kode_jabatan }}</td>
-                                                        <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                        <td>{{ $jabatan->nama_jabatan }}</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                    Detail
-                                                                </button>
-                                                                <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                    <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                    <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                  <ul>
-                                    <li class="jabatan-item">
-                                      <div class="jabatan">Eselon 3A / Jabatan Administrator
-                                          <table class="table table-striped table-bordered">
-                                              <tbody>
-                                                  @foreach($jabatans as $jabatan)
-                                                      @if($jabatan->eselon === 'Eselon 3A / Jabatan Administrator')
-                                                          <tr>
-                                                              <td>{{ $jabatan->kode_jabatan }}</td>
-                                                              <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                              <td>{{ $jabatan->nama_jabatan }}</td>
-                                                              <td>
-                                                                  <div class="btn-group">
-                                                                      <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                          Detail
-                                                                      </button>
-                                                                      <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                          <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                          <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                              @csrf
-                                                                              @method('DELETE')
-                                                                              <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                          </form>
-                                                                      </div>
-                                                                  </div>
-                                                              </td>
-                                                          </tr>
-                                                      @endif
-                                                  @endforeach
-                                              </tbody>
-                                          </table>
-                                      </div>              
-                                        <ul>
-                                          <li class="jabatan-item">
-                                            <div class="jabatan">Eselon 3B / Jabatan Administrator
-                                                <table class="table table-striped table-bordered">
-                                                    <tbody>
-                                                        @foreach($jabatans as $jabatan)
-                                                            @if($jabatan->eselon === 'Eselon 3B / Jabatan Administrator')
-                                                                <tr>
-                                                                    <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                    <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                    <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                    <td>
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                Detail
-                                                                            </button>
-                                                                            <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                    @csrf
-                                                                                    @method('DELETE')
-                                                                                    <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            @endif
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>                  
-                                              <ul>
-                                                <li class="jabatan-item">
-                                                  <div class="jabatan">Eselon 4A / Jabatan Pengawas
-                                                      <table class="table table-striped table-bordered">
-                                                          <tbody>
-                                                              @foreach($jabatans as $jabatan)
-                                                                  @if($jabatan->eselon === 'Eselon 4A / Jabatan Pengawas')
-                                                                      <tr>
-                                                                          <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                          <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                          <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                          <td>
-                                                                              <div class="btn-group">
-                                                                                  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                      Detail
-                                                                                  </button>
-                                                                                  <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                      <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                      <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                          @csrf
-                                                                                          @method('DELETE')
-                                                                                          <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                      </form>
-                                                                                  </div>
-                                                                              </div>
-                                                                          </td>
-                                                                      </tr>
-                                                                  @endif
-                                                              @endforeach
-                                                          </tbody>
-                                                      </table>
-                                                  </div>
-                                                <ul>
-                                                  <li class="jabatan-item">
-                                                    <div class="jabatan">Eselon 4B / Jabatan Pengawas
-                                                        <table class="table table-striped table-bordered">
-                                                            <tbody>
-                                                                @foreach($jabatans as $jabatan)
-                                                                    @if($jabatan->eselon === 'Eselon 4B / Jabatan Pengawas')
-                                                                        <tr>
-                                                                            <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                            <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                            <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                            <td>
-                                                                                <div class="btn-group">
-                                                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                        Detail
-                                                                                    </button>
-                                                                                    <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                        <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                        <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                            @csrf
-                                                                                            @method('DELETE')
-                                                                                            <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                        </form>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>                          
-                                                      <ul>
-                                                        <li class="jabatan-item">
-                                                          <div class="jabatan">Eselon 4A / Jabatan Pengawas (F)
-                                                              <table class="table table-striped table-bordered">
-                                                                  <tbody>
-                                                                      @foreach($jabatans as $jabatan)
-                                                                          @if($jabatan->eselon === 'Eselon 4A / Jabatan Pengawas (F)')
-                                                                              <tr>
-                                                                                  <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                                  <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                                  <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                                  <td>
-                                                                                      <div class="btn-group">
-                                                                                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                              Detail
-                                                                                          </button>
-                                                                                          <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                              <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                              <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                                  @csrf
-                                                                                                  @method('DELETE')
-                                                                                                  <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                              </form>
-                                                                                          </div>
-                                                                                      </div>
-                                                                                  </td>
-                                                                              </tr>
-                                                                          @endif
-                                                                      @endforeach
-                                                                  </tbody>
-                                                              </table>
-                                                          </div>                            
-                                                            <ul>
-                                                              <li class="jabatan-item">
-                                                                <div class="jabatan">Kelompok
-                                                                    <table class="table table-striped table-bordered">
-                                                                        <tbody>
-                                                                            @foreach($jabatans as $jabatan)
-                                                                                @if($jabatan->eselon === 'Kelompok') 
-                                                                                    <tr>
-                                                                                        <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                                        <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                                        <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                                        <td>
-                                                                                            <div class="btn-group">
-                                                                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                                    Detail
-                                                                                                </button>
-                                                                                                <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                                    <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                                    <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                                        @csrf
-                                                                                                        @method('DELETE')
-                                                                                                        <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                                    </form>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>                              
-                                                                  <ul>
-                                                                    <li class="jabatan-item">
-                                                                      <div class="jabatan">Sub Kelompok
-                                                                          <table class="table table-striped table-bordered">
-                                                                              <tbody>
-                                                                                  @foreach($jabatans as $jabatan)
-                                                                                      @if($jabatan->eselon === 'Sub Kelompok') <!-- Tambahkan kondisi sesuai sub kelompok -->
-                                                                                          <tr>
-                                                                                              <td>{{ $jabatan->kode_jabatan }}</td>
-                                                                                              <td>{{ $jabatan->jenis_jabatan }}</td>
-                                                                                              <td>{{ $jabatan->nama_jabatan }}</td>
-                                                                                              <td>
-                                                                                                  <div class="btn-group">
-                                                                                                      <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                                                          Detail
-                                                                                                      </button>
-                                                                                                      <div class="dropdown-menu" style="margin-right: 50px;">
-                                                                                                          <a class="dropdown-item" href="{{ route('jabatan.show', $jabatan->id_jabatan) }}">Lihat Data</a>
-                                                                                                          <form action="{{ route('jabatan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
-                                                                                                              @csrf
-                                                                                                              @method('DELETE')
-                                                                                                              <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-                                                                                                          </form>
-                                                                                                      </div>
-                                                                                                  </div>
-                                                                                              </td>
-                                                                                          </tr>
-                                                                                      @endif
-                                                                                  @endforeach
-                                                                              </tbody>
-                                                                          </table>
-                                                                      </div>                                
-                                                                    </li>
-                                                                  </ul>
-                                                                </li>
-                                                              </ul>
-                                                            </li>
-                                                          </ul>
-                                                        </li>
-                                                      </ul>
-                                                    </li>
-                                                  </ul>
-                                                </li>
-                                              </ul>
-                                            </li>
-                                          </ul>
-                                        </li>
-                                      </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-      </div>
+                                        <div class="jabatan">
+                                            @if($jabatan->anakJabatans->isNotEmpty())
+                                                @include('Admin_Unor.ANJAB.jabatan.jabatan_list', ['anakJabatans' => $jabatan->anakJabatans])
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+
     </section>
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Anda yakin ingin menghapus jabatan ini?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
   <footer class="main-footer">
     <strong>Created By Pemkab Bwi <a href="https://adminlte.io">AnjabAbk.id</a></strong>
     <div class="float-right d-none d-sm-inline-block">
@@ -815,6 +625,53 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- Scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const jenisJabatan = document.getElementById('jenis_jabatan');
+        const jenjangForm = document.getElementById('jenjangForm');
+        const eselonForm = document.getElementById('eselonForm');
+
+        function updateForm() {
+            if (jenisJabatan.value === 'fungsional') {
+                jenjangForm.style.display = 'block';
+                eselonForm.style.display = 'none';
+            } else {
+                jenjangForm.style.display = 'none';
+                eselonForm.style.display = 'block';
+            }
+        }
+
+        jenisJabatan.addEventListener('change', updateForm);
+        updateForm();
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const createJabatanModal = document.getElementById('createJabatanModal');
+        const dibawahJabatanSelect = createJabatanModal.querySelector('#dibawah_jabatan');
+
+        // Saat tombol tambah diklik
+        document.querySelectorAll('.fa-circle-plus').forEach(button => {
+            button.addEventListener('click', () => {
+                // Ambil id_jabatan dari tombol yang diklik
+                const idJabatan = button.getAttribute('data-id_jabatan');
+
+                // Pilih opsi yang sesuai di dropdown
+                if (idJabatan) {
+                    dibawahJabatanSelect.value = idJabatan;
+                } else {
+                    dibawahJabatanSelect.value = ""; // Kosongkan jika tidak ada
+                }
+            });
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jQuery -->
 <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -849,24 +706,7 @@
 <script src="{{ asset('AdminLTE/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('AdminLTE/dist/js/pages/dashboard.js') }}"></script>
-<script>
-  document.querySelector('#logout-button').addEventListener('click', function(event) {
-  event.preventDefault();
-  
-  fetch('{{ route('logout') }}', {
-      method: 'POST',
-      headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-  }).then(response => {
-      if (response.ok) {
-          window.location.href = '/'; // Redirect setelah logout
-      }
-  });
-});
-
-</script>
 </body>
 </html>
+
+
